@@ -1,0 +1,40 @@
+// Data Source Name
+
+generator client {
+  provider  = "prisma-client-py"
+  interface = "asyncio"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.db"
+}
+
+// Definição do modelo de usuário
+model User {
+  id         String  @id @default(uuid())
+  name       String
+  photo      String?
+  bio        String?
+  
+}
+
+// Definição do modelo de receita
+model Receita {
+  id Int @id @default(autoincrement())
+  // ...
+  // Outros campos da receita
+  // ...
+}
+
+// Definição do modelo de buteco (comunidade)
+model Buteco {
+  id Int @id @default(autoincrement())
+  // ...
+  // Outros campos do buteco
+  // ...
+}
+
+model Files{
+  id String  @id @default(uuid())
+}
