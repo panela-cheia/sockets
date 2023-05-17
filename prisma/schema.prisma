@@ -12,29 +12,138 @@ datasource db {
 
 // Definição do modelo de usuário
 model User {
-  id         String  @id @default(uuid())
-  name       String
-  photo      String?
-  bio        String?
-  
+  id       String  @id @default(uuid())
+  name     String
+  username String  @unique
+  email    String  @unique
+  password String
+  bio      String?
+
+  photo  File?   @relation(fields: [fileId], references: [id]) // foto de perfil
+  fileId String?
+
+  barn Barn? //armazém
+
+  followers Follows[] @relation("following")
+  following Follows[] @relation("follower")
+
+  recipes Recipe[] // receitas
+
+  usersDive UsersDive[] // butecos que o usuário faz parte
+
+  ownersDive Dive[] // butecos que o usuário é admin
+
+  reactions Reaction[] //reações a receitas
+
+  @@map("users")
+}
+
+model Follows {
+  follower    User   @relation("follower", fields: [followerId], references: [id])
+  followerId  String
+  following   User   @relation("following", fields: [followingId], references: [id])
+  followingId String
+
+  @@id([followerId, followingId])
+}
+
+// Definição do modelo de buteco
+model Dive {
+  id          String @id @default(uuid())
+  name        String
+  description String
+
+  owner  User   @relation(fields: [userId], references: [id])
+  userId String
+
+  members UsersDive[]
+  Recipe  Recipe[]
+
+  photo  File?   @relation(fields: [fileId], references: [id])
+  fileId String?
+}
+
+// relação many to many 
+model UsersDive {
+  id String @id @default(uuid())
+
+  userId String
+  diveId String
+
+  user User @relation(fields: [userId], references: [id])
+  dive Dive @relation(fields: [diveId], references: [id])
+
+  @@unique([userId, diveId])
 }
 
 // Definição do modelo de receita
-model Receita {
-  id Int @id @default(autoincrement())
-  // ...
-  // Outros campos da receita
-  // ...
+model Recipe {
+  id String @id @default(uuid())
+
+  name        String
+  description String
+
+  User   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  Barn   Barn?   @relation(fields: [barnId], references: [id]) // armazém
+  barnId String?
+
+  dive   Dive?   @relation(fields: [diveId], references: [id]) // buteco que pode ter relação
+  diveId String?
+
+  photo  File?   @relation(fields: [fileId], references: [id])
+  fileId String?
+
+  reactions Reaction[]
+
+  ingredients Ingredients[]
 }
 
-// Definição do modelo de buteco (comunidade)
-model Buteco {
-  id Int @id @default(autoincrement())
-  // ...
-  // Outros campos do buteco
-  // ...
+model Ingredients {
+  id String @id @default(uuid())
+
+  name     String
+  amount   Int
+  unit     String
+  
+  Recipe   Recipe? @relation(fields: [recipeId], references: [id])
+  recipeId String?
 }
 
-model Files{
-  id String  @id @default(uuid())
+model Reaction {
+  id   Int    @id @default(autoincrement())
+  type String // bão, mió de bão ou água na boca
+
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipeId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+}
+
+// Definição do modelo de armazém
+model Barn {
+  id String @id @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  recipes Recipe[]
+}
+
+// Definição do modelo de arquvios (imagens)
+model File {
+  id   String @id @default(uuid())
+  name String
+  path String
+
+  User User[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  Recipe     Recipe[]
+  Dive       Dive[]
+
+  @@map("files")
 }

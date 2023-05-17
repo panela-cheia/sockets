@@ -1,3 +1,4 @@
-prisma==3.6.1
-databases[sqlite]
-asyncio
+prisma==0.8.2
+databases[sqlite]==0.7.0
+asyncio==3.4.3
+bcrypt==4.0.1
