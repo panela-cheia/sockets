@@ -13,6 +13,16 @@ class UserRepository:
             }
         )
 
+        await prisma.barn.create(
+            data={
+                "user":{
+                    "connect": {
+                        "id": user.id
+                    }
+                }
+            }
+        )
+
         await prisma.disconnect()
 
         return user
@@ -20,7 +30,9 @@ class UserRepository:
     async def findAll(self):
         await prisma.connect()
 
-        users = await prisma.user.find_many()
+        users = await prisma.user.find_many(
+            include={"barn": True}
+        )
 
         await prisma.disconnect()
 
@@ -45,6 +57,19 @@ class UserRepository:
         user = await prisma.user.find_unique(
             where={
                 "username":username
+            }
+        )
+
+        await prisma.disconnect()
+
+        return user
+
+    async def findById(self,id):
+        await prisma.connect()
+
+        user = await prisma.user.find_unique(
+            where={
+                "id":id
             }
         )
 
@@ -102,3 +127,34 @@ class UserRepository:
         await prisma.disconnect()
 
         return user
+    
+    async def verifyFollowing(self, follower:str, following:str) -> bool:
+        await prisma.connect()
+
+        values = await prisma.follows.find_first(
+            where={
+                "followerId": follower,
+                "followingId": following
+            }
+        )
+        
+        await prisma.disconnect()
+
+        return values is not None
+    
+    async def followUser(self,user_id:str, follow_id:str):
+        await prisma.connect()
+
+        values =  await prisma.follows.create(
+            data={"follower": {"connect": {"id": user_id}}, "following": {"connect": {"id": follow_id}}}
+        )
+
+        await prisma.disconnect()
+        return values
+
+    async def deleteFollow(self,user_id:str, unfollow_id:str):
+        await prisma.connect()
+
+        await prisma.follows.delete(where={"followerId": user_id, "followingId": unfollow_id})
+
+        await prisma.disconnect()
