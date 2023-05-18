@@ -52,7 +52,7 @@ class UserRepository:
 
         return user
     
-    async def update(self,id,name,username,bio,photo):
+    async def update(self,id,name,username,bio):
         await prisma.connect()
 
         user = await prisma.user.update(
@@ -63,9 +63,26 @@ class UserRepository:
                 "name":name,
                 "username":username,
                 "bio":bio,
+                
+            }
+        )
+
+        await prisma.disconnect()
+
+        return user
+
+    async def updatePhoto(self,id,photo):
+        await prisma.connect()
+
+        user = await prisma.user.update(
+            where={
+                'id': id
+            },
+            data={
                 "photo":{
                     "connect":photo
                 }
+                
             }
         )
 
