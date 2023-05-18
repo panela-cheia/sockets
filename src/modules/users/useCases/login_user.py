@@ -33,18 +33,19 @@ class LoginUserUseCase:
             key=MD5
         )
 
-        # tirar b' do começo e ' do final
-
         response = {
             "user":{
                 "id":user.id,
                 "name":user.name,
-                "username":user.username
+                "username":user.username,
+                "email":user.email
             },
-            "token":token
+            "token":token.decode('utf-8')
         }
 
+        response_json = json.dumps(response)
+
         try:
-           return response
+           return response_json
         except:
             raise Exception("An error occurred during user creation")
