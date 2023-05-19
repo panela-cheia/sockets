@@ -65,3 +65,41 @@ class RecipeRepository:
         await prisma.disconnect()
 
         return recipes
+
+    async def verify_existing_reaction(self,recipe_id:str,user_id:str):
+        await prisma.connect()
+        
+        existing_reaction = await prisma.reaction.find_first(
+            where={"recipeId": recipe_id, "userId": user_id}
+        )
+
+        await prisma.disconnect()
+        
+        return existing_reaction
+    
+    async def reaction(self,recipe_id:str,type:str,user_id:str):
+        await prisma.connect()
+
+        reaction = await prisma.reaction.create(
+            data={
+                "type": type,
+                "recipeId": recipe_id,
+                "userId": user_id
+            }
+        )
+
+        await prisma.disconnect()
+
+        return reaction
+    
+    async def updateReaction(self,id:str,type:str):
+        await prisma.connect()
+
+        reaction = await prisma.reaction.update(
+                where={"id": id},
+                data={"type": type}
+            )
+
+        await prisma.disconnect()
+
+        return reaction

@@ -21,6 +21,7 @@ from modules.files.useCases.create_file import CreateFileUseCase
 from modules.recipes.useCases.create_recipe_usecase import CreateRecipeUseCase
 from modules.recipes.useCases.list_usecase import ListRecipesUseCase
 from modules.recipes.useCases.serch_recipes_usecase import SearchRecipesUseCase
+from modules.recipes.useCases.reaction_recipe_usecase import ReactionRecipeUseCase
 
 # dtos
 from modules.users.dtos.create_user_dto import CreateUserDTO
@@ -29,6 +30,7 @@ from modules.users.dtos.update_user_dto import UpdateUserDTO
 from modules.files.dtos.create_file_dto import CreateFileDTO
 
 from modules.recipes.dtos.create_recipe_dto import CreateRecipeDTO
+from modules.recipes.dtos.reactions_dto import ReactionDTO,ReactionType
 
 #utils
 from utils.convert_list_convert_to_ingredient_dtos import convert_list_to_ingredient_dtos
@@ -54,6 +56,7 @@ if __name__ == "__main__":
     createRecipeUseCase = CreateRecipeUseCase(repository=recipeRepository)
     listRecipesUseCase = ListRecipesUseCase(repository=recipeRepository)
     searchRecipesUseCase = SearchRecipesUseCase(repository=recipeRepository)
+    reactionRecipeUseCase = ReactionRecipeUseCase(repository=recipeRepository)
 
     createUserDTO = CreateUserDTO(
         name="Vinicius Mendes",
@@ -86,6 +89,12 @@ if __name__ == "__main__":
         fileId="c1a13582-9997-4c24-8a7e-fd3e40fd5e63"
     )
 
+
+    type = ReactionType.MIO_DE_BAO
+    print(type)
+
+    reactionDTO = ReactionDTO(type=type.value,recipe_id="468caf9d-fc04-440a-8395-44542f76f2dc",user_id="3bb76893-2547-435f-a209-5d294726c5af")
+
     # user = asyncio.run(createUserUseCase.execute(createUserDTO=createUserDTO))
     # users = asyncio.run(updateUserUseCase.execute(id="3bb76893-2547-435f-a209-5d294726c5af",updateUserDTO=updateUserDTO))
     # print(user)
@@ -99,7 +108,8 @@ if __name__ == "__main__":
 
     # recipe = asyncio.run(createRecipeUseCase.execute(data=createRecipeDTO))
     # recipes = asyncio.run(listRecipesUseCase.execute())
-    recipes = asyncio.run(searchRecipesUseCase.execute(name="test"))
+    # recipes = asyncio.run(searchRecipesUseCase.execute(name="test"))
+    recipes = asyncio.run(reactionRecipeUseCase.execute(reaction_data=reactionDTO))
 
     print(recipes)
 
