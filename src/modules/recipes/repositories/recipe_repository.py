@@ -27,3 +27,41 @@ class RecipeRepository:
         await prisma.disconnect()
 
         return recipe
+    
+    async def findAll(self):
+        await prisma.connect()
+
+        recipes = await prisma.recipe.find_many(
+            where={},
+            include={
+                "User":True,
+                "photo":True,
+                "ingredients":True,
+                "dive":True
+            }
+        )
+
+        await prisma.disconnect()
+
+        return recipes
+
+    async def search(self,name:str):
+        await prisma.connect()
+
+        recipes = await prisma.recipe.find_many(
+            where={
+                "name": {
+                    "contains": name
+                }
+            },
+            include={
+                "User": True,
+                "photo":True,
+                "ingredients":True,
+                "dive":True
+            }
+        )
+
+        await prisma.disconnect()
+
+        return recipes

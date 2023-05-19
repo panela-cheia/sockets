@@ -19,6 +19,8 @@ from modules.users.useCases.list_others import ListOthersUseCase
 from modules.files.useCases.create_file import CreateFileUseCase
 
 from modules.recipes.useCases.create_recipe_usecase import CreateRecipeUseCase
+from modules.recipes.useCases.list_usecase import ListRecipesUseCase
+from modules.recipes.useCases.serch_recipes_usecase import SearchRecipesUseCase
 
 # dtos
 from modules.users.dtos.create_user_dto import CreateUserDTO
@@ -50,6 +52,8 @@ if __name__ == "__main__":
     createFileUseCase = CreateFileUseCase(repository=filesRepository)
 
     createRecipeUseCase = CreateRecipeUseCase(repository=recipeRepository)
+    listRecipesUseCase = ListRecipesUseCase(repository=recipeRepository)
+    searchRecipesUseCase = SearchRecipesUseCase(repository=recipeRepository)
 
     createUserDTO = CreateUserDTO(
         name="Vinicius Mendes",
@@ -93,8 +97,10 @@ if __name__ == "__main__":
 
     # users = asyncio.run(listOthersUseCase.execute("3bb76893-2547-435f-a209-5d294726c5af"))
 
-    recipe = asyncio.run(createRecipeUseCase.execute(data=createRecipeDTO))
- 
-    print(recipe)
+    # recipe = asyncio.run(createRecipeUseCase.execute(data=createRecipeDTO))
+    # recipes = asyncio.run(listRecipesUseCase.execute())
+    recipes = asyncio.run(searchRecipesUseCase.execute(name="test"))
+
+    print(recipes)
 
     # print(users)
