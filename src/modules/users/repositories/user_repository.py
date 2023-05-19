@@ -161,12 +161,29 @@ class UserRepository:
 
         await prisma.follows.delete(
             where={
-                "followerId_followingId":{
-                    "followerId":user_id,
-                    "followingId":unfollow_id
+                "followerId_followingId": {
+                    "followerId": user_id,
+                    "followingId": unfollow_id
                 }
             }
         )
 
+        await prisma.disconnect()
+
+    async def findOther(self, id: str):
+        await prisma.connect()
+
+        users = await prisma.user.find_many(
+            where={
+                "id": {
+                    "not": id
+                }
+            },
+            order={
+                'username': 'asc',
+            }
+        )
 
         await prisma.disconnect()
+
+        return users

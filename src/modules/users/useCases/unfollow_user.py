@@ -1,10 +1,4 @@
-import jwt
-import json
-
 from modules.users.repositories.user_repository import UserRepository
-
-
-from shared.errors.errors import CustomError
 
 class UnfollowUserUseCase:
     def __init__(self,userRepository:UserRepository) -> None:

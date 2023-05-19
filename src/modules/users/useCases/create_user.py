@@ -1,7 +1,7 @@
 from modules.users.repositories.user_repository import UserRepository
 from modules.users.dtos.create_user_dto import CreateUserDTO
 
-from modules.users.providers.hash import hash
+from providers.hash import hash
 
 from shared.errors.errors import CustomError
 
@@ -10,7 +10,7 @@ class CreateUserUseCase:
         self.userRepository = userRepository
 
     async def execute(self, createUserDTO: CreateUserDTO):
-        passwordHash = hash(createUserDTO.password)
+        passwordHash = hash(createUserDTO.password,8)
 
         verifyIfEmailAlreadyBeenRegistered = await self.userRepository.findByEmail(createUserDTO.email)
 
