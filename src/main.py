@@ -26,9 +26,9 @@ if __name__ == "__main__":
     unfollowUserUseCase= UnfollowUserUseCase(userRepository=userRepository)
 
     createUserDTO = CreateUserDTO(
-        name="testes-8",
-        username="@teste-8",
-        email="teste-8.teste@ufv.br",
+        name="Vinicius Mendes",
+        username="@vinicsmendes",
+        email="vinicius.mendes@ufv.br",
         password="12345678"
     )
 
@@ -44,12 +44,7 @@ if __name__ == "__main__":
     
     # value = asyncio.run(loginUserUseCase.execute(createUserDTO.email,"12345678"))
     users = asyncio.run(listAllUsersUseCase.execute())
-
-    
-    follow = asyncio.run(unfollowUserUseCase.execute(
-        user_id="0ceeaf5c-2a0d-4867-a415-c600276ed5f9",
-        unfollow_id="bf5f0683-16dd-4123-960d-48cb84321db5"
-    ))
-
-    print(follow)
+ 
+    asyncio.run(unfollowUserUseCase.execute("3bb76893-2547-435f-a209-5d294726c5af","cf68e693-c0a0-4dcf-8233-0e955ab7713b"))
+    # print(follow)
     print(users)
