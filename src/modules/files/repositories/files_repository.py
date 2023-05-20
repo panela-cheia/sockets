@@ -32,10 +32,12 @@ class FilesRepository:
     async def findById(self,id):
         await prisma.connect()
 
-        await prisma.file.find_unique(
+        foundedFile = await prisma.file.find_unique(
             where={
                 "id":id
             }
         )
 
         await prisma.disconnect()
+        
+        return foundedFile
