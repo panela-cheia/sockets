@@ -3,6 +3,7 @@
 generator client {
   provider  = "prisma-client-py"
   interface = "asyncio"
+  recursive_type_depth = 5
 }
 
 datasource db {
@@ -83,10 +84,10 @@ model Recipe {
   name        String
   description String
 
-  User   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
   userId String
 
-  Barn   Barn?   @relation(fields: [barnId], references: [id]) // armazém
+  barn   Barn?   @relation(fields: [barnId], references: [id]) // armazém
   barnId String?
 
   dive   Dive?   @relation(fields: [diveId], references: [id]) // buteco que pode ter relação
