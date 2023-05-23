@@ -6,4 +6,4 @@ class CreateDiveUseCase:
         self.repository = repository
     
     async def execute(self, data:CreateDiveDTO):
-        return await self.repository.create(data=data) 
+        return await self.repository.create(data) 

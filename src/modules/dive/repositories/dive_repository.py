@@ -2,7 +2,7 @@ from shared.infra.prisma import prisma
 from modules.dive.dtos.create_dive_dto import CreateDiveDTO
 
 class DiveRepository:
-    async def create(data:CreateDiveDTO):
+    async def create(self, data:CreateDiveDTO):
         await prisma.connect()
         
         dive = await prisma.dive.create(data={
@@ -16,13 +16,70 @@ class DiveRepository:
 
         return dive
     
-    # async def enterDive(self, user_id: str, dive_id: str):
-    #     await prisma.connect()
-        
-    #     # values = 
-        
-    #     await prisma.disconnect()
+    async def findById(self, id):
+        await prisma.connect()
 
-        # return values
+        user = await prisma.user.find_unique(
+            where={
+                "id": id
+            }
+        )
+
+        await prisma.disconnect()
+
+        return user
+
+    async def findDiveById(self, dive_id):
+        await prisma.connect()
+
+        dive = await prisma.dive.unique(
+            where={
+                "id": dive_id
+            }
+        )
+
+        await prisma.disconnect()
+
+        return dive
     
-    # async def exitDive(self, )
+    async def verifyEntry(self, user: str, dive: str) -> bool:
+        await prisma.connect()
+        
+        values = await prisma.usersdive.find_first(
+            where={
+                "userId": user,
+                "diveId": dive
+            }
+        )
+        
+        await prisma.disconnect()
+
+        return values is not None
+
+    async def enterDive(self, user_id: str, dive_id: str):
+        await prisma.connect()
+        
+        values = await prisma.usersdive.create(
+            data={
+                "user": {"connect":{"id": user_id}},
+                "dive": {"connect":{"id": dive_id}}
+            }
+        )
+        
+        await prisma.disconnect()
+
+        return values
+    
+    async def exitDive(self, user_id: str, dive_id: str):
+        await prisma.connect()
+
+        await prisma.usersdive.delete(
+            where={
+                "userId_diveId":{
+                    "userId": user_id,
+                    "diveId": dive_id
+                }
+            }
+        )
+
+        await prisma.disconnect()
