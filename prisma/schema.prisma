@@ -51,7 +51,7 @@ model Follows {
 // Definição do modelo de buteco
 model Dive {
   id          String @id @default(uuid())
-  name        String
+  name        String 
   description String
 
   owner  User   @relation(fields: [userId], references: [id])

@@ -58,6 +58,7 @@ if __name__ == "__main__":
     filesRepository = FilesRepository()
     recipeRepository = RecipeRepository()
     diveRepository = DiveRepository()
+    barnRepository = BarnRepository()
 
     
     createUserUseCase = CreateUserUseCase(userRepository=userRepository)
@@ -119,7 +120,7 @@ if __name__ == "__main__":
     )
 
     createDiveDTO = CreateDiveDTO(
-        name="Buteco do Truco",
+        name="Buteco dos cria",
         description="Buteco só pra quem joga truco mineiro e gosta de churrasco",
         fileId="c1a13582-9997-4c24-8a7e-fd3e40fd5e63",
         userId="3bb76893-2547-435f-a209-5d294726c5af"
