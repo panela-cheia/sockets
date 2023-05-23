@@ -6,6 +6,7 @@ from modules.users.repositories.user_repository import UserRepository
 from modules.files.repositories.files_repository import FilesRepository
 from modules.recipes.repositories.recipe_repository import RecipeRepository
 from modules.dive.repositories.dive_repository import DiveRepository
+from modules.barn.repositories.barn_repository import BarnRepository
 
 # usecases
 from modules.users.useCases.create_user import CreateUserUseCase
@@ -26,6 +27,9 @@ from modules.recipes.useCases.serch_recipes_usecase import SearchRecipesUseCase
 from modules.recipes.useCases.reaction_recipe_usecase import ReactionRecipeUseCase
 
 from modules.dive.useCases.create_dive_usecase import CreateDiveUseCase
+from modules.barn.useCases.save_recipe import SaveRecipeUseCase
+from modules.barn.useCases.sarch_recipe import SearhRecipeUseCase
+from modules.barn.useCases.remove_recipe import RemoveRecipeUseCase
 
 # dtos
 from modules.users.dtos.create_user_dto import CreateUserDTO
@@ -38,11 +42,14 @@ from modules.recipes.dtos.create_recipe_dto import CreateRecipeDTO
 from modules.recipes.dtos.reactions_dto import ReactionDTO,ReactionType
 
 from modules.dive.dtos.create_dive_dto import CreateDiveDTO
+from modules.barn.dtos.save_recipe_dto import BarnSaveRecipeDTO
+from modules.barn.dtos.search_recipe_in_barn_dto import SearchRecipeInBarnDTO
+from modules.barn.dtos.remove_recipe_dto import RemoveRecipeDTO
 
 #utils
 from utils.convert_list_convert_to_ingredient_dtos import convert_list_to_ingredient_dtos
 
-sys.tracebacklimit=0
+# sys.tracebacklimit=0
 
 if __name__ == "__main__":
     userRepository = UserRepository()
@@ -50,9 +57,8 @@ if __name__ == "__main__":
     recipeRepository = RecipeRepository()
     diveRepository = DiveRepository()
 
+    
     createUserUseCase = CreateUserUseCase(userRepository=userRepository)
-    listAllUsersUseCase= ListAllUsersUseCase(userRepository=userRepository)
-    listOthersUseCase= ListOthersUseCase(userRepository=userRepository)
     updateUserUseCase= UpdateUserUseCase(userRepository=userRepository)
     loginUserUseCase= LoginUserUseCase(userRepository=userRepository)
     loginUserWithUsernameUseCase= LoginUserWithUsernameUseCase(userRepository=userRepository)
@@ -68,6 +74,9 @@ if __name__ == "__main__":
     reactionRecipeUseCase = ReactionRecipeUseCase(repository=recipeRepository)
 
     createDiveUseCase = CreateDiveUseCase(repository=DiveRepository)
+    saveRecipeInBarnUseCase = SaveRecipeUseCase(repository=barnRepository)
+    searchRecipesUseCase = SearhRecipeUseCase(repository=barnRepository)
+    removeRecipeUseCase = RemoveRecipeUseCase(repository=barnRepository)
 
     createUserDTO = CreateUserDTO(
         name="Vinicius Mendes",
@@ -111,6 +120,17 @@ if __name__ == "__main__":
         userId="3bb76893-2547-435f-a209-5d294726c5af"
     )
 
+    saveRecipeInBarnDTO = BarnSaveRecipeDTO(
+        barnId="804e869c-3c2b-4776-884e-669e57e2c204",
+        recipeId="f1158dc9-9d6e-4940-b215-167076752a2c"
+    )
+
+    removeRecipeDTO = RemoveRecipeDTO(
+        barnId="804e869c-3c2b-4776-884e-669e57e2c204",
+        recipeId="f1158dc9-9d6e-4940-b215-167076752a2c"
+    )
+
+    searchRecipesDTO = SearchRecipeInBarnDTO(barnId="804e869c-3c2b-4776-884e-669e57e2c204", recipeName="Teste")
 
     # type = ReactionType.MIO_DE_BAO
     # print(type)
@@ -125,7 +145,7 @@ if __name__ == "__main__":
     # users = asyncio.run(listAllUsersUseCase.execute())
 
     # fileCreated = asyncio.run(createFileUseCase.execute(createFileDTO))
-    fileDeleted = asyncio.run(deleteFileUseCase.execute(deleteFileDTO))
+    # fileDeleted = asyncio.run(deleteFileUseCase.execute(deleteFileDTO))
 
     # users = asyncio.run(listOthersUseCase.execute("3bb76893-2547-435f-a209-5d294726c5af"))
 
@@ -137,6 +157,11 @@ if __name__ == "__main__":
     # print(recipes)
 
     # print(users)
+    # barn = asyncio.run(saveRecipeInBarnUseCase.execute(data=saveRecipeInBarnDTO))
+    # recipesInBarn = asyncio.run(searchRecipesUseCase.execute(data=searchRecipesDTO))
+    removeRecipe = asyncio.run(removeRecipeUseCase.execute(data=removeRecipeDTO))
+
+    print(removeRecipe)
 
     # print(fileDeleted)
 

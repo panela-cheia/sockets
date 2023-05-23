@@ -1,8 +1,6 @@
 from typing import Optional,List
 from pydantic import BaseModel
 
-from pydantic import BaseModel
-
 class IngredientDTO(BaseModel):
     name: str
     amount: int
