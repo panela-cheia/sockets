@@ -30,6 +30,8 @@ from modules.dive.useCases.create_dive_usecase import CreateDiveUseCase
 from modules.barn.useCases.save_recipe import SaveRecipeUseCase
 from modules.barn.useCases.sarch_recipe import SearhRecipeUseCase
 from modules.barn.useCases.remove_recipe import RemoveRecipeUseCase
+from modules.dive.useCases.enter_dive import EnterDiveUseCase
+from modules.dive.useCases.exit_dive import ExitDiveUseCase
 
 # dtos
 from modules.users.dtos.create_user_dto import CreateUserDTO
@@ -77,6 +79,9 @@ if __name__ == "__main__":
     saveRecipeInBarnUseCase = SaveRecipeUseCase(repository=barnRepository)
     searchRecipesUseCase = SearhRecipeUseCase(repository=barnRepository)
     removeRecipeUseCase = RemoveRecipeUseCase(repository=barnRepository)
+    createDiveUseCase = CreateDiveUseCase(repository=diveRepository)
+    enterDiveUseCase = EnterDiveUseCase(repository=diveRepository)
+    exitDiveUseCase = ExitDiveUseCase(repository=diveRepository)
 
     createUserDTO = CreateUserDTO(
         name="Vinicius Mendes",
@@ -166,5 +171,6 @@ if __name__ == "__main__":
     # print(fileDeleted)
 
     dive = asyncio.run(createDiveUseCase.execute(data=createDiveDTO))
+    #enterDive = asyncio.run(enterDiveUseCase.execute("f9bbdd1e-3214-4997-b198-7144cdedb529", ))
     
     print(dive)
