@@ -29,3 +29,119 @@ aux4 = {
     "body":{
     }
 }
+
+aux5 = {
+    "topic":"@user/list_others_user",
+    "body":{
+        "id":"f98ae2bf-ea2e-4e0e-b6af-469c0193ea2d"
+    }
+}
+
+aux6 = {
+    "topic":"@user/follow_user",
+    "body":{
+        "user_id":"15559c81-0d4a-47b8-ba7a-a468b62e7217",
+        "follow_id":"f98ae2bf-ea2e-4e0e-b6af-469c0193ea2d"
+    }
+}
+
+aux7 = {
+    "topic":"@user/unfollow_user",
+    "body":{
+        "user_id":"15559c81-0d4a-47b8-ba7a-a468b62e7217",
+        "unfollow_id":"f98ae2bf-ea2e-4e0e-b6af-469c0193ea2d"
+    }
+}
+
+aux8 = {
+    "topic":"@user/update_user",
+    "body":{
+        "id":"15559c81-0d4a-47b8-ba7a-a468b62e7217",
+        "bio":"amo comer!",
+        "name": "Vinicius Mendes",
+        "username": "@vinicmendes"
+    }
+}
+
+aux9 = {
+    "topic":"@user/update_photo_user",
+    "body":{
+        "id":"15559c81-0d4a-47b8-ba7a-a468b62e7217",
+        "photo": "51ce99f5-0223-4c63-b57e-24de13f37038"
+    }
+}
+
+aux10 = {
+    "topic":"@file/create_file",
+    "body":{
+        "name":"file.png"
+    }
+}
+
+aux11 = {
+    "topic":"@file/delete_file",
+    "body":{
+        "id":"f16c8840-5c8c-4481-9dd4-0952583eb609"
+    }
+}
+
+aux12 = {
+    "topic":"@barn/save_recipe_barn",
+    "body":{
+        "id":"45e10356-681a-4593-a438-9ec90871c804",
+        "recipe_id":"d63222be-f90d-4e1b-a39f-bbb741fc3af0"
+    }
+}
+
+aux13 = {
+    "topic":"@barn/search_recipe_barn",
+    "body":{
+        "id":"45e10356-681a-4593-a438-9ec90871c804",
+        "name":"Receita"
+    }
+}
+
+aux14 = {
+    "topic":"@barn/remove_recipe_barn",
+    "body":{
+        "id":"45e10356-681a-4593-a438-9ec90871c804",
+        "recipe_id":"d63222be-f90d-4e1b-a39f-bbb741fc3af0"
+    }
+}
+
+aux15 = {
+    "topic":"@recipe/create_recipe",
+    "body":{
+        "name":"New",
+        "description":"new recipe",
+        "userId":"15559c81-0d4a-47b8-ba7a-a468b62e7217",
+        "fileId":"51ce99f5-0223-4c63-b57e-24de13f37038",
+        "ingredients":[
+            {"name": "Ingredient 1", "amount": 1, "unit": "cup"},
+            {"name": "Ingredient 2", "amount": 2, "unit": "teaspoon"},
+            {"name": "Ingredient 3", "amount": 3, "unit": "gram"},
+        ]
+    }
+}
+
+aux16 = {
+    "topic":"@recipe/list_recipe",
+    "body":{
+    }
+}
+
+aux17 = {
+    "topic":"@recipe/reaction_recipe",
+    "body":{
+        "type":"bão",
+        "recipe_id":"d63222be-f90d-4e1b-a39f-bbb741fc3af0",
+        "user_id":"9badd489-fe3f-4b93-a20d-caaa621d4213"
+    }
+}
+
+aux18 = {
+    "topic":"@recipe/search_recipe",
+    "body":{
+        "name":"New"
+    }
+}

@@ -83,13 +83,12 @@ class UserRepository:
 
         user = await prisma.user.update(
             where={
-                'id': id
+                "id": id
             },
             data={
                 "name": name,
                 "username": username,
-                "bio": bio,
-
+                "bio": bio
             }
         )
 
@@ -106,9 +105,13 @@ class UserRepository:
             },
             data={
                 "photo": {
-                    "connect": photo
+                    "connect": {
+                        "id":photo
+                    }
                 }
-
+            },
+            include={
+                "photo":True,
             }
         )
 

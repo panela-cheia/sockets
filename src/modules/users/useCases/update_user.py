@@ -9,14 +9,20 @@ class UpdateUserUseCase:
 
     async def execute(self, id:str,updateUserDTO: UpdateUserDTO):
 
-        verifyIfUsernameAlreadyBeenRegistered = await self.userRepository.findByUsername(updateUserDTO.username)
+        verifyIfUserAlreadyExists = await self.userRepository.findById(id=id)
 
-        if verifyIfUsernameAlreadyBeenRegistered:
-            raise CustomError("This username has already been registered")
+        if not verifyIfUserAlreadyExists:
+            raise Exception("User not exists")
 
-        # Verifica se o username começa com '@'
-        if not updateUserDTO.username.startswith('@'):
-            updateUserDTO.username = '@' + updateUserDTO.username
+        if updateUserDTO.username and updateUserDTO.username != verifyIfUserAlreadyExists.username:
+            verifyIfUsernameAlreadyBeenRegistered = await self.userRepository.findByUsername(updateUserDTO.username)
+
+            if verifyIfUsernameAlreadyBeenRegistered:
+                raise CustomError("This username has already been registered")
+
+            # Verifica se o username começa com '@'
+            if not updateUserDTO.username.startswith('@'):
+                updateUserDTO.username = '@' + updateUserDTO.username
 
         try:
             user = await self.userRepository.update(

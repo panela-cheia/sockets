@@ -15,6 +15,7 @@ class DeleteFileUseCase:
             raise CustomError("File not found")
         
         try:
-            return await self.repository.delete(deleteFileDTO.id)
+            await self.repository.delete(deleteFileDTO.id)
+            return "Successfully delete file"
         except:
             raise Exception("An error occurred during file deletion")

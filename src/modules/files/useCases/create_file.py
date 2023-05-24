@@ -19,8 +19,10 @@ class CreateFileUseCase:
         if extension != ".png" and extension != ".jpg":
             raise CustomError("Extension is not permitted!")
         
+        '''
         nameHashed = hash(value=createFileDTO.name,gensalt=4)
 
         finalName = nameHashed +  "-" + createFileDTO.name
+        '''
 
-        return await self.repository.create(finalName,path)
+        return await self.repository.create(createFileDTO.name,path)

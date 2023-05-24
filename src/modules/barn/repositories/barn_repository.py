@@ -1,6 +1,7 @@
 from shared.infra.prisma import prisma
 
 from modules.barn.dtos.save_recipe_dto import BarnSaveRecipeDTO
+from modules.barn.dtos.remove_recipe_dto import RemoveRecipeDTO
 from modules.barn.dtos.search_recipe_in_barn_dto import SearchRecipeInBarnDTO
 
 
@@ -40,12 +41,10 @@ class BarnRepository:
         )
 
         await prisma.disconnect()
-                
-
 
         return barns
     
-    async def removeRecipe(self, data:BarnSaveRecipeDTO):
+    async def removeRecipe(self, data:RemoveRecipeDTO):
         await prisma.connect()
 
         barn = await prisma.barn.update(
@@ -63,5 +62,3 @@ class BarnRepository:
         await prisma.disconnect()
 
         return barn
-
-        

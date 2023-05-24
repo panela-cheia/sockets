@@ -17,6 +17,7 @@ from modules.users.useCases.create_user import CreateUserUseCase
 from modules.users.useCases.list_all_users import ListAllUsersUseCase
 from modules.users.useCases.list_others import ListOthersUseCase
 from modules.users.useCases.update_user import UpdateUserUseCase
+from modules.users.useCases.update_photo_user import UpdatePhotoUserUseCase
 from modules.users.useCases.login_user import LoginUserUseCase
 from modules.users.useCases.login_user_with_username import LoginUserWithUsernameUseCase
 from modules.users.useCases.follow_user import FollowUserUseCase
@@ -30,10 +31,11 @@ from modules.recipes.useCases.list_usecase import ListRecipesUseCase
 from modules.recipes.useCases.search_recipes_usecase import SearchRecipesUseCase
 from modules.recipes.useCases.reaction_recipe_usecase import ReactionRecipeUseCase
 
-from modules.dive.useCases.create_dive_usecase import CreateDiveUseCase
 from modules.barn.useCases.save_recipe import SaveRecipeUseCase
 from modules.barn.useCases.search_recipe import SearhRecipeUseCase
 from modules.barn.useCases.remove_recipe import RemoveRecipeUseCase
+
+from modules.dive.useCases.create_dive_usecase import CreateDiveUseCase
 from modules.dive.useCases.enter_dive import EnterDiveUseCase
 from modules.dive.useCases.exit_dive import ExitDiveUseCase
 from modules.dive.useCases.update_dive import UpdateDiveUseCase
@@ -56,6 +58,10 @@ from modules.barn.dtos.save_recipe_dto import BarnSaveRecipeDTO
 from modules.barn.dtos.search_recipe_in_barn_dto import SearchRecipeInBarnDTO
 from modules.barn.dtos.remove_recipe_dto import RemoveRecipeDTO
 
+# utils
+from utils.convert_list_convert_to_ingredient_dtos import convert_list_to_ingredient_dtos
+
+
 class Bootstrap:
     def __init__(self)-> None:
         pass
@@ -71,9 +77,11 @@ class Bootstrap:
         loginUserUseCase= LoginUserUseCase(userRepository=userRepository)
         loginUserWithUsernameUseCase= LoginUserWithUsernameUseCase(userRepository=userRepository)
         listAllUsersUseCase = ListAllUsersUseCase(userRepository=userRepository)
+        listOthersUseCase = ListOthersUseCase(userRepository=userRepository)
         followUserUseCase= FollowUserUseCase(userRepository=userRepository)
         unfollowUserUseCase= UnfollowUserUseCase(userRepository=userRepository)
         updateUserUseCase= UpdateUserUseCase(userRepository=userRepository)
+        updatePhotoUserUseCase = UpdatePhotoUserUseCase(userRepository=userRepository)
 
         createFileUseCase = CreateFileUseCase(repository=filesRepository)
         deleteFileUseCase = DeleteFileUseCase(repository=filesRepository)
@@ -83,10 +91,11 @@ class Bootstrap:
         searchRecipesUseCase = SearchRecipesUseCase(repository=recipeRepository)
         reactionRecipeUseCase = ReactionRecipeUseCase(repository=recipeRepository)
 
-        createDiveUseCase = CreateDiveUseCase(repository=DiveRepository)
         saveRecipeInBarnUseCase = SaveRecipeUseCase(repository=barnRepository)
-        searchRecipesUseCase = SearhRecipeUseCase(repository=barnRepository)
+        searchRecipeUseCase = SearhRecipeUseCase(repository=barnRepository)
         removeRecipeUseCase = RemoveRecipeUseCase(repository=barnRepository)
+
+        createDiveUseCase = CreateDiveUseCase(repository=DiveRepository)
         createDiveUseCase = CreateDiveUseCase(repository=diveRepository)
         enterDiveUseCase = EnterDiveUseCase(repository=diveRepository)
         exitDiveUseCase = ExitDiveUseCase(repository=diveRepository)
@@ -129,46 +138,81 @@ class Bootstrap:
             logger.info("{topic} - {users}",topic=Topics.USER_LIST.value,users=users)
 
         elif topic == Topics.USER_LIST_OTHERS.value:
-            print(Topics.USER_LIST_OTHERS.value)
+            users = await listOthersUseCase.execute(id=body["id"])
+            logger.info("{topic} - {users}",topic=Topics.USER_LIST_OTHERS.value,users=users)
 
         elif topic == Topics.USER_FOLLOW.value:
-            print(Topics.USER_FOLLOW.value)
+            follow = await followUserUseCase.execute(user_id=body["user_id"],follow_id=body["follow_id"])
+            logger.info("{topic} - {response}",topic=Topics.USER_FOLLOW.value,response=follow)
 
         elif topic == Topics.USER_UNFOLLOW.value:
-            print(Topics.USER_UNFOLLOW.value)
+            unfollow = await unfollowUserUseCase.execute(user_id=body["user_id"],unfollow_id=body["unfollow_id"])
+            logger.info("{topic} - {response}",topic=Topics.USER_UNFOLLOW.value,response=unfollow)
 
         elif topic == Topics.USER_UPDATE.value:
-            print(Topics.USER_UPDATE.value)
+            updateUserDTO = UpdateUserDTO(
+                bio=body["bio"],
+                name=body["name"],
+                username=body["username"]
+            )
+
+            update = await updateUserUseCase.execute(id=body["id"],updateUserDTO=updateUserDTO)
+            logger.info("{topic} - {response}",topic=Topics.USER_UPDATE.value,response=update)
 
         elif topic == Topics.USER_UPDATE_PHOTO.value:
-            print(Topics.USER_UPDATE_PHOTO.value)
+            update = await updatePhotoUserUseCase.execute(id=body["id"],photo=body["photo"])
+            logger.info("{topic} - {response}",topic=Topics.USER_UPDATE_PHOTO.value,response=update)
 
         elif topic == Topics.BARN_SEARCH_RECIPE.value:
-            print(Topics.BARN_SEARCH_RECIPE.value)
+            dto = SearchRecipeInBarnDTO(barnId=body["id"],recipeName=body["name"])
+            recipes = await searchRecipeUseCase.execute(data=dto)
+            logger.info("{topic} - {response}",topic=Topics.BARN_SEARCH_RECIPE.value,response=recipes)
 
         elif topic == Topics.BARN_SAVE_RECIPE.value:
-            print(Topics.BARN_SAVE_RECIPE.value)
+            dto = BarnSaveRecipeDTO(barnId=body["id"],recipeId=body["recipe_id"])
+            barn = await saveRecipeInBarnUseCase.execute(data=dto)
+            logger.info("{topic} - {response}",topic=Topics.BARN_SAVE_RECIPE.value,response=barn)
 
         elif topic == Topics.BARN_REMOVE_RECIPE.value:
-            print(Topics.BARN_REMOVE_RECIPE.value)
+            dto = RemoveRecipeDTO(barnId=body["id"],recipeId=body["recipe_id"])
+            barn = await removeRecipeUseCase.execute(data=dto)
+            logger.info("{topic} - {response}",topic=Topics.BARN_REMOVE_RECIPE.value,response=barn)
 
         elif topic == Topics.FILE_CREATE.value:
-            print(Topics.FILE_CREATE.value)
+            createFileDTO = CreateFileDTO(name=body["name"])
+            file = await createFileUseCase.execute(createFileDTO=createFileDTO)
+            logger.info("{topic} - {response}",topic=Topics.FILE_CREATE.value,response=file)
 
         elif topic == Topics.FILE_DELETE.value:
-            print(Topics.FILE_DELETE.value)
+            deleteFileDTO = DeleteFileDTO(id=body["id"])
+            file = await deleteFileUseCase.execute(deleteFileDTO=deleteFileDTO)
+            logger.info("{topic} - {response}",topic=Topics.FILE_DELETE.value,response=file)
         
         elif topic == Topics.RECIPE_CREATE.value:
-            print(Topics.RECIPE_CREATE.value)
+            createRecipeDTO = CreateRecipeDTO(
+                name=body["name"],
+                description=body["description"],
+                ingredients=convert_list_to_ingredient_dtos(data=body["ingredients"]),
+                userId=body["userId"],
+                fileId=body["fileId"]
+            )
+
+            recipe = await createRecipeUseCase.execute(data=createRecipeDTO)
+            logger.info("{topic} - {response}",topic=Topics.RECIPE_CREATE.value,response=recipe)
 
         elif topic == Topics.RECIPE_LIST.value:
-            print(Topics.RECIPE_LIST.value)
+            recipes = await listRecipesUseCase.execute()
+            logger.info("{topic} - {response}",topic=Topics.RECIPE_LIST.value,response=recipes)
 
         elif topic == Topics.RECIPE_REACTION.value:
-            print(Topics.RECIPE_REACTION.value)
+            type = ReactionType(body["type"])
+            dto = ReactionDTO(type=type.value,recipe_id=body["recipe_id"],user_id=body["user_id"])
+            reaction = await reactionRecipeUseCase.execute(reaction_data=dto) 
+            logger.info("{topic} - {response}",topic=Topics.RECIPE_REACTION.value,response=reaction)
 
         elif topic == Topics.RECIPE_SEARCH.value:
-            print(Topics.RECIPE_SEARCH.value)
+            recipes = await searchRecipesUseCase.execute(name=body["name"])
+            logger.info("{topic} - {response}",topic=Topics.RECIPE_SEARCH.value,response=recipes)
 
         elif topic == Topics.DIVE_CREATE.value:
             print(Topics.DIVE_CREATE.value)
