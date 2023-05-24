@@ -34,7 +34,7 @@ class RecipeRepository:
         recipes = await prisma.recipe.find_many(
             where={},
             include={
-                "User":True,
+                "user":True,
                 "photo":True,
                 "ingredients":True,
                 "dive":True
@@ -55,7 +55,7 @@ class RecipeRepository:
                 }
             },
             include={
-                "User": True,
+                "user": True,
                 "photo":True,
                 "ingredients":True,
                 "dive":True
@@ -103,27 +103,3 @@ class RecipeRepository:
         await prisma.disconnect()
 
         return reaction
-    
-    # async def saveRecipe(self,recipe_id:str,barnId:str):
-    #     await prisma.connect()
-
-    #     barn = await prisma.barn.find_unique(
-    #         where={"id": barnId},
-    #     )
-
-    #     if barn:
-    #         recipe = await prisma.recipe.find_unique(
-    #             where={"id": recipe_id},
-    #         )
-
-    #         if recipe:
-    #             barn = await prisma.barn.update(
-    #                 where={"id": barnId},
-    #                 data={
-    #                     "recipes": {
-    #                         "connect": {
-    #                             "id": recipe_id
-    #                         }
-    #                     }
-    #                 }
-    #             )

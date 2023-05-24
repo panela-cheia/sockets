@@ -98,6 +98,9 @@ CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Dive_name_key" ON "Dive"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "UsersDive_userId_diveId_key" ON "UsersDive"("userId", "diveId");
 
 -- CreateIndex

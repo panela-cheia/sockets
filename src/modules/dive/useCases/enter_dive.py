@@ -1,8 +1,4 @@
-import json
-
 from modules.dive.repositories.dive_repository import DiveRepository
-
-from shared.errors.errors import CustomError
 
 class EnterDiveUseCase:
     def __init__(self, repository: DiveRepository) -> None:

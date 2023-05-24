@@ -1,15 +1,16 @@
 from shared.infra.prisma import prisma
 from modules.dive.dtos.create_dive_dto import CreateDiveDTO
+from modules.dive.dtos.update_dive_dto import UpdateDiveDTO
 
 class DiveRepository:
     async def create(self, data:CreateDiveDTO):
         await prisma.connect()
         
         dive = await prisma.dive.create(data={
-            "name": data.name,
-            "description": data.description,
-            "fileId": data.fileId,
-            "userId": data.userId
+            "name":data.name,
+            "description":data.description,
+            "fileId":data.fileId,
+            "userId":data.userId
         })
 
         await prisma.disconnect()
@@ -32,9 +33,22 @@ class DiveRepository:
     async def findDiveById(self, dive_id):
         await prisma.connect()
 
-        dive = await prisma.dive.unique(
+        dive = await prisma.dive.find_unique(
             where={
                 "id": dive_id
+            }
+        )
+
+        await prisma.disconnect()
+
+        return dive
+    
+    async def findDiveByName(self, name):
+        await prisma.connect()
+
+        dive = await prisma.dive.find_unique(
+            where={
+                "name": name
             }
         )
 
@@ -83,3 +97,36 @@ class DiveRepository:
         )
 
         await prisma.disconnect()
+
+    async def update(self,updateDiveDTO:UpdateDiveDTO):
+        await prisma.connect()
+
+        dive = await prisma.dive.update(
+            where={
+                "id": updateDiveDTO.id
+            },
+            data={
+                "description":updateDiveDTO.description,
+                "fileId":updateDiveDTO.fileId,
+                "name":updateDiveDTO.name
+            }
+        )
+
+        await prisma.disconnect()
+
+        return dive
+    
+    async def findAll(self,name):
+        await prisma.connect()
+
+        dives = await prisma.dive.find_many(
+            where={
+                "name":{
+                    "contains":name
+                }
+            }
+        )
+
+        await prisma.disconnect()
+
+        return dives

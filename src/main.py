@@ -32,6 +32,8 @@ from modules.barn.useCases.sarch_recipe import SearhRecipeUseCase
 from modules.barn.useCases.remove_recipe import RemoveRecipeUseCase
 from modules.dive.useCases.enter_dive import EnterDiveUseCase
 from modules.dive.useCases.exit_dive import ExitDiveUseCase
+from modules.dive.useCases.update_dive import UpdateDiveUseCase
+from modules.dive.useCases.search_dive import SearchDiveUseCase
 
 # dtos
 from modules.users.dtos.create_user_dto import CreateUserDTO
@@ -44,14 +46,16 @@ from modules.recipes.dtos.create_recipe_dto import CreateRecipeDTO
 from modules.recipes.dtos.reactions_dto import ReactionDTO,ReactionType
 
 from modules.dive.dtos.create_dive_dto import CreateDiveDTO
+from modules.dive.dtos.update_dive_dto import UpdateDiveDTO
+
 from modules.barn.dtos.save_recipe_dto import BarnSaveRecipeDTO
 from modules.barn.dtos.search_recipe_in_barn_dto import SearchRecipeInBarnDTO
 from modules.barn.dtos.remove_recipe_dto import RemoveRecipeDTO
 
-#utils
+# utils
 from utils.convert_list_convert_to_ingredient_dtos import convert_list_to_ingredient_dtos
 
-# sys.tracebacklimit=0
+sys.tracebacklimit=0
 
 if __name__ == "__main__":
     userRepository = UserRepository()
@@ -83,11 +87,27 @@ if __name__ == "__main__":
     createDiveUseCase = CreateDiveUseCase(repository=diveRepository)
     enterDiveUseCase = EnterDiveUseCase(repository=diveRepository)
     exitDiveUseCase = ExitDiveUseCase(repository=diveRepository)
+    updateDiveUseCase = UpdateDiveUseCase(repository=diveRepository)
+    searchDiveUseCase = SearchDiveUseCase(repository=diveRepository)
 
     createUserDTO = CreateUserDTO(
+        name="Artur Papa",
+        username="@moviepapa",
+        email="artur.papa@ufv.br",
+        password="12345678"
+    )
+
+    createUserDTO1 = CreateUserDTO(
+        name="Luciano Belo",
+        username="@luciano_belojr",
+        email="luciano.alcantara@ufv.br",
+        password="12345678"
+    )
+
+    createUserDTO2 = CreateUserDTO(
         name="Vinicius Mendes",
-        username="@vinicsmendes",
-        email="vinicius.mendes@ufv.br",
+        username="@vinicmendes",
+        email="vinicius.o.mendes@ufv.br",
         password="12345678"
     )
 
@@ -120,10 +140,10 @@ if __name__ == "__main__":
     )
 
     createDiveDTO = CreateDiveDTO(
-        name="Buteco dos cria",
+        name="Buteco dos cria o retorno",
         description="Buteco só pra quem joga truco mineiro e gosta de churrasco",
-        fileId="c1a13582-9997-4c24-8a7e-fd3e40fd5e63",
-        userId="3bb76893-2547-435f-a209-5d294726c5af"
+        fileId="1f86708a-bc91-41aa-860f-e7e432ed11e3",
+        userId="04cf31b3-2278-40c5-908f-eab6e1ccd670"
     )
 
     saveRecipeInBarnDTO = BarnSaveRecipeDTO(
@@ -136,14 +156,22 @@ if __name__ == "__main__":
         recipeId="f1158dc9-9d6e-4940-b215-167076752a2c"
     )
 
-    searchRecipesDTO = SearchRecipeInBarnDTO(barnId="804e869c-3c2b-4776-884e-669e57e2c204", recipeName="Teste")
+    updateDiveDTO = UpdateDiveDTO(
+        description="teste",
+        id="1ec9643b-8abd-4f3e-b809-eb13bb702d33",
+        name="teste",
+        fileId="9e409529-3998-4401-87ac-83bf5092bbae"
+    )
+
+    #searchRecipesDTO = SearchRecipeInBarnDTO(barnId="804e869c-3c2b-4776-884e-669e57e2c204", recipeName="Teste")
 
     # type = ReactionType.MIO_DE_BAO
     # print(type)
 
     # reactionDTO = ReactionDTO(type=type.value,recipe_id="468caf9d-fc04-440a-8395-44542f76f2dc",user_id="3bb76893-2547-435f-a209-5d294726c5af")
 
-    # user = asyncio.run(createUserUseCase.execute(createUserDTO=createUserDTO))
+    # user = asyncio.run(createUserUseCase.execute(createUserDTO=createUserDTO2))
+    # print(user)
     # users = asyncio.run(updateUserUseCase.execute(id="3bb76893-2547-435f-a209-5d294726c5af",updateUserDTO=updateUserDTO))
     # print(user)
     
@@ -165,13 +193,22 @@ if __name__ == "__main__":
     # print(users)
     # barn = asyncio.run(saveRecipeInBarnUseCase.execute(data=saveRecipeInBarnDTO))
     # recipesInBarn = asyncio.run(searchRecipesUseCase.execute(data=searchRecipesDTO))
-    removeRecipe = asyncio.run(removeRecipeUseCase.execute(data=removeRecipeDTO))
+    # removeRecipe = asyncio.run(removeRecipeUseCase.execute(data=removeRecipeDTO))
 
-    print(removeRecipe)
+    # print(removeRecipe)
 
     # print(fileDeleted)
 
-    dive = asyncio.run(createDiveUseCase.execute(data=createDiveDTO))
-    #enterDive = asyncio.run(enterDiveUseCase.execute("f9bbdd1e-3214-4997-b198-7144cdedb529", ))
-    
-    print(dive)
+    # dive = asyncio.run(createDiveUseCase.execute(data=createDiveDTO))
+    # enterDive = asyncio.run(enterDiveUseCase.execute("b8013ea0-7a58-408b-802c-830858c71b77", "1ec9643b-8abd-4f3e-b809-eb13bb702d33"))
+    # exitDive = asyncio.run(exitDiveUseCase.execute("b8013ea0-7a58-408b-802c-830858c71b77", "1ec9643b-8abd-4f3e-b809-eb13bb702d33"))
+    # enterDive = asyncio.run(enterDiveUseCase.execute("f9bbdd1e-3214-4997-b198-7144cdedb529", "1ec9643b-8abd-4f3e-b809-eb13bb702d33"))
+    # print(exitDive)
+    # print(fileCreated)
+
+    # dive = asyncio.run(updateDiveUseCase.execute(updateDiveDTO=updateDiveDTO))
+
+    # print(dive)
+
+    # dives = asyncio.run(searchDiveUseCase.execute(diveName=""))
+    # print(dives)
