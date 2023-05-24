@@ -53,6 +53,7 @@ from modules.recipes.dtos.reactions_dto import ReactionDTO,ReactionType
 
 from modules.dive.dtos.create_dive_dto import CreateDiveDTO
 from modules.dive.dtos.update_dive_dto import UpdateDiveDTO
+from modules.dive.dtos.exit_dive_dto import ExitDiveDTO
 
 from modules.barn.dtos.save_recipe_dto import BarnSaveRecipeDTO
 from modules.barn.dtos.search_recipe_in_barn_dto import SearchRecipeInBarnDTO
@@ -215,16 +216,33 @@ class Bootstrap:
             logger.info("{topic} - {response}",topic=Topics.RECIPE_SEARCH.value,response=recipes)
 
         elif topic == Topics.DIVE_CREATE.value:
-            print(Topics.DIVE_CREATE.value)
+            createDiveDTO = CreateDiveDTO(
+                name= body["name"],
+                description=body["description"],
+                fileId=body["fileId"],
+                userId=body["userId"],
+            )
+
+            dive = await createDiveUseCase.execute(data=createDiveDTO)
+            logger.info("{topic} - {response}",topic=Topics.DIVE_CREATE.value,response=dive)
         
         elif topic == Topics.DIVE_SEARCH.value:
-            print(Topics.DIVE_SEARCH.value)
+            dive = await searchDiveUseCase.execute(diveName=body["name"])
+            logger.info("{topic} - {response}",topic=Topics.DIVE_SEARCH.value,response=dive)
 
         elif topic == Topics.DIVE_ENTER.value:
-            print(Topics.DIVE_ENTER.value)
+            dive = await enterDiveUseCase.execute(user_id=body["id"],dive_id=body["diveId"])
+            logger.info("{topic} - {response}",topic=Topics.DIVE_ENTER.value,response=dive)
         
         elif topic == Topics.DIVE_EXIT.value:
-            print(Topics.DIVE_EXIT.value)
+            exitDiveDTO = ExitDiveDTO(
+                user=body["user"],
+                new_owner=body["new_owner"],
+                diveId=body["dive"]
+            )
+            
+            dive = await exitDiveUseCase.execute(data=exitDiveDTO)
+            logger.info("{topic} - {response}",topic=Topics.DIVE_EXIT.value,response=dive)
 
         elif topic == Topics.DIVE_UPDATE.value:
             print(Topics.DIVE_UPDATE.value)

@@ -145,3 +145,28 @@ aux18 = {
         "name":"New"
     }
 }
+
+aux19 = {
+    "topic":"@dive/create_dive",
+    "body":{
+        "name":"buteco",
+        "description":"novo puteco",
+        "fileId":"51ce99f5-0223-4c63-b57e-24de13f37038",
+        "userId":"9badd489-fe3f-4b93-a20d-caaa621d4213"
+    }
+}
+
+aux20 = {
+    "topic":"@dive/search_dive",
+    "body":{
+        "name":"buteco"
+    }
+}
+
+aux21 = {
+    "topic":"@dive/enter_dive",
+    "body":{
+        "id":"aea42f09-5372-4ed2-ad49-dbc65e327dcb",
+        "diveId":"76806064-77aa-4570-b85f-5f87d1152338"
+    }
+}

@@ -130,3 +130,17 @@ class DiveRepository:
         await prisma.disconnect()
 
         return dives
+    
+    async def updateDiveOwner(self,dive_id:str,new_owner:str):
+        await prisma.connect()
+
+        dives = await prisma.dive.update(
+            where={
+                "id":dive_id
+            },
+            data={
+                "owner":new_owner
+            }
+        )
+
+        await prisma.disconnect()
