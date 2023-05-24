@@ -4,4 +4,4 @@ all:
 	python3 -B $(MAIN)
 
 populate:
-	python3 -B src/populate/index.py
+	python3 -B prisma/seed.py

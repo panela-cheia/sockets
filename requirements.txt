@@ -6,3 +6,4 @@ python-dotenv==1.0.0
 pyjwt[crypto]==1.7.1
 pydantic==1.10.7
 typing==3.7.4.3
+loguru==0.7.0
