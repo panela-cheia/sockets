@@ -10,7 +10,7 @@ class DiveRepository:
             "name":data.name,
             "description":data.description,
             "fileId":data.fileId,
-            "userId":data.userId
+            "userId":data.userId,
         })
 
         await prisma.disconnect()
@@ -144,3 +144,4 @@ class DiveRepository:
         )
 
         await prisma.disconnect()
+        return dives

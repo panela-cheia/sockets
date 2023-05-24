@@ -220,7 +220,7 @@ class Bootstrap:
                 name= body["name"],
                 description=body["description"],
                 fileId=body["fileId"],
-                userId=body["userId"],
+                userId=body["userId"]
             )
 
             dive = await createDiveUseCase.execute(data=createDiveDTO)
@@ -238,7 +238,7 @@ class Bootstrap:
             exitDiveDTO = ExitDiveDTO(
                 user=body["user"],
                 new_owner=body["new_owner"],
-                diveId=body["dive"]
+                diveId=body["diveId"]
             )
             
             dive = await exitDiveUseCase.execute(data=exitDiveDTO)

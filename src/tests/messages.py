@@ -149,10 +149,10 @@ aux18 = {
 aux19 = {
     "topic":"@dive/create_dive",
     "body":{
-        "name":"buteco",
-        "description":"novo puteco",
+        "name":"lele",
+        "description":"Buteco do Zé2",
         "fileId":"51ce99f5-0223-4c63-b57e-24de13f37038",
-        "userId":"9badd489-fe3f-4b93-a20d-caaa621d4213"
+        "userId":"15559c81-0d4a-47b8-ba7a-a468b62e7217"
     }
 }
 
@@ -167,6 +167,33 @@ aux21 = {
     "topic":"@dive/enter_dive",
     "body":{
         "id":"aea42f09-5372-4ed2-ad49-dbc65e327dcb",
+        "diveId":"76806064-77aa-4570-b85f-5f87d1152338"
+    }
+}
+
+aux22 = {
+    "topic":"@dive/exit_dive",
+    "body":{
+        "user":"9badd489-fe3f-4b93-a20d-caaa621d4213",
+        "new_owner":"15559c81-0d4a-47b8-ba7a-a468b62e7217",
+        "diveId":"76806064-77aa-4570-b85f-5f87d1152338"
+    }
+}
+
+aux23 = {
+    "topic":"@dive/exit_dive",
+    "body":{
+        "user":"9badd489-fe3f-4b93-a20d-caaa621d4213",
+        "new_owner":"aea42f09-5372-4ed2-ad49-dbc65e327dcb",
+        "diveId":"76806064-77aa-4570-b85f-5f87d1152338"
+    }
+}
+
+aux24 = {
+    "topic":"@dive/exit_dive",
+    "body":{
+        "user":"9badd489-fe3f-4b93-a20d-caaa621d4213",
+        "new_owner":"",
         "diveId":"76806064-77aa-4570-b85f-5f87d1152338"
     }
 }

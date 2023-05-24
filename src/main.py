@@ -3,11 +3,11 @@ import sys
 import json
 
 from base.base import Bootstrap
-from tests.messages import aux21
+from tests.messages import aux19
 
 sys.tracebacklimit=0
 
 if __name__ == "__main__":
     base = Bootstrap()
 
-    asyncio.run(base.run(json.dumps(aux21)))
+    asyncio.run(base.run(json.dumps(aux19)))
