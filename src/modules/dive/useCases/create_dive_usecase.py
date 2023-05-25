@@ -6,7 +6,4 @@ class CreateDiveUseCase:
         self.repository = repository
     
     async def execute(self, data:CreateDiveDTO):
-        dive = await self.repository.create(data)
-        updated_dive = await self.repository.updateDiveOwner(dive.userId, dive.id)
-        print(updated_dive)
-        return updated_dive
+        return await self.repository.create(data)

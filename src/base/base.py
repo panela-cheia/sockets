@@ -217,7 +217,7 @@ class Bootstrap:
 
         elif topic == Topics.DIVE_CREATE.value:
             createDiveDTO = CreateDiveDTO(
-                name= body["name"],
+                name=body["name"],
                 description=body["description"],
                 fileId=body["fileId"],
                 userId=body["userId"]

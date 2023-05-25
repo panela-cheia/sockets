@@ -149,8 +149,8 @@ aux18 = {
 aux19 = {
     "topic":"@dive/create_dive",
     "body":{
-        "name":"lele",
-        "description":"Buteco do Zé2",
+        "name":"Buteco Teste Owner3",
+        "description":"Buteco do Zé",
         "fileId":"51ce99f5-0223-4c63-b57e-24de13f37038",
         "userId":"15559c81-0d4a-47b8-ba7a-a468b62e7217"
     }
