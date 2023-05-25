@@ -163,7 +163,6 @@ async def seed():
         })
 
         # create dive
-
         createDiveDTO = CreateDiveDTO(
             name="Buteco",
             description="Novo buteco",
@@ -175,7 +174,7 @@ async def seed():
             "name":createDiveDTO.name,
             "description":createDiveDTO.description,
             "fileId":createDiveDTO.fileId,
-            "userId":createDiveDTO.userId
+            "ownerId":createDiveDTO.userId
         })
 
         await prisma.disconnect()

@@ -2,8 +2,6 @@ from shared.infra.prisma import prisma
 
 from modules.barn.dtos.save_recipe_dto import BarnSaveRecipeDTO
 from modules.barn.dtos.remove_recipe_dto import RemoveRecipeDTO
-from modules.barn.dtos.search_recipe_in_barn_dto import SearchRecipeInBarnDTO
-
 
 class BarnRepository:
 
@@ -18,6 +16,14 @@ class BarnRepository:
             data={
                 "recipes":{
                     "connect": [{ "id":data.recipeId }]
+                }
+            },
+            include={
+                "recipes":True,
+                "user":{
+                    "include":{
+                        "photo":True
+                    }
                 }
             }
         )
@@ -36,7 +42,8 @@ class BarnRepository:
                 "id": barnId
             },
             include={
-                "recipes":True
+                "recipes":True,
+                "user":True
             }
         )
 
@@ -55,6 +62,10 @@ class BarnRepository:
                 "recipes":{
                     "disconnect": [{ "id":data.recipeId }]
                 }
+            },
+            include={
+                "recipes":True,
+                "user":True
             }
         )
 

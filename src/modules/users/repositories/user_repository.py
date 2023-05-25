@@ -32,7 +32,16 @@ class UserRepository:
         await prisma.connect()
 
         users = await prisma.user.find_many(
-            include={"barn": True}
+            include={
+                "barn": True,
+                "followers":True,
+                "following":True,
+                "ownersDive":True,
+                "photo":True,
+                "reactions":True,
+                "recipes":True,
+                "usersDive":True
+            }
         )
 
         await prisma.disconnect()
@@ -58,6 +67,16 @@ class UserRepository:
         user = await prisma.user.find_unique(
             where={
                 "username": username
+            },
+            include={
+                "barn": True,
+                "followers":True,
+                "following":True,
+                "ownersDive":True,
+                "photo":True,
+                "reactions":True,
+                "recipes":True,
+                "usersDive":True
             }
         )
 
@@ -71,6 +90,16 @@ class UserRepository:
         user = await prisma.user.find_unique(
             where={
                 "id": id
+            },
+            include={
+                "barn": True,
+                "followers":True,
+                "following":True,
+                "ownersDive":True,
+                "photo":True,
+                "reactions":True,
+                "recipes":True,
+                "usersDive":True
             }
         )
 
@@ -184,6 +213,16 @@ class UserRepository:
             },
             order={
                 'username': 'asc',
+            },
+            include={
+                "barn": True,
+                "followers":True,
+                "following":True,
+                "ownersDive":True,
+                "photo":True,
+                "reactions":True,
+                "recipes":True,
+                "usersDive":True
             }
         )
 

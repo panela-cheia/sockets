@@ -5,6 +5,7 @@ class EnterDiveUseCase:
         self.repository = repository
     
     async def execute(self, user_id: str, dive_id: str):
+        
         # Verificar se o usuário existe
         user = await self.repository.findById(id=user_id)
         if not user:
@@ -21,6 +22,7 @@ class EnterDiveUseCase:
         if existing_dive:
             raise ValueError("Already in this dive")
         
+
         # Criar o relacionamento
         await self.repository.enterDive(user_id, dive_id)
 

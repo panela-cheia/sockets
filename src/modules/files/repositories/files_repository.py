@@ -7,10 +7,17 @@ class FilesRepository:
 
         await prisma.connect()
 
-        fileCreated = await prisma.file.create(data={
-            "name":name,
-            "path":path
-        })
+        fileCreated = await prisma.file.create(
+            data={
+                "name":name,
+                "path":path
+            },
+            include={
+                "dive":True,
+                "recipe":True,
+                "user":True
+            }
+        )
 
         await prisma.disconnect()
 
@@ -23,6 +30,11 @@ class FilesRepository:
         await prisma.file.delete(
             where={
                 "id":id
+            },
+            include={
+                "dive":True,
+                "recipe":True,
+                "user":True
             }
         )
 
@@ -35,6 +47,11 @@ class FilesRepository:
         foundedFile = await prisma.file.find_unique(
             where={
                 "id":id
+            },
+            include={
+                "dive":True,
+                "recipe":True,
+                "user":True
             }
         )
 

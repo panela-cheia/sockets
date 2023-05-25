@@ -6,12 +6,20 @@ class DiveRepository:
     async def create(self, data:CreateDiveDTO):
         await prisma.connect()
         
-        dive = await prisma.dive.create(data={
-            "name":data.name,
-            "description":data.description,
-            "fileId":data.fileId,
-            "userId":data.userId,
-        })
+        dive = await prisma.dive.create(
+            data={
+                "name":data.name,
+                "description":data.description,
+                "fileId":data.fileId,
+                "ownerId":data.userId,
+            },
+            include={
+                "members":True,
+                "owner":True,
+                "photo":True,
+                "recipe":True
+            }
+        )
 
         await prisma.disconnect()
 
@@ -23,6 +31,11 @@ class DiveRepository:
         user = await prisma.user.find_unique(
             where={
                 "id": id
+            },
+            include={
+                "ownersDive":True,
+                "photo":True,
+                "recipes":True
             }
         )
 
@@ -36,6 +49,11 @@ class DiveRepository:
         dive = await prisma.dive.find_unique(
             where={
                 "id": dive_id
+            },
+            include={
+                "owner":True,
+                "photo":True,
+                "recipe":True
             }
         )
 
@@ -49,6 +67,11 @@ class DiveRepository:
         dive = await prisma.dive.find_unique(
             where={
                 "name": name
+            },
+            include={
+                "ownersDive":True,
+                "photo":True,
+                "recipes":True
             }
         )
 
@@ -63,6 +86,10 @@ class DiveRepository:
             where={
                 "userId": user,
                 "diveId": dive
+            },
+            include={
+                "dive":True,
+                "user":True,
             }
         )
         
@@ -93,6 +120,10 @@ class DiveRepository:
                     "userId": user_id,
                     "diveId": dive_id
                 }
+            },
+            include={
+                "dive":True,
+                "user":True
             }
         )
 
@@ -109,6 +140,11 @@ class DiveRepository:
                 "description":updateDiveDTO.description,
                 "fileId":updateDiveDTO.fileId,
                 "name":updateDiveDTO.name
+            },
+            include={
+                "ownersDive":True,
+                "photo":True,
+                "recipes":True
             }
         )
 
@@ -124,6 +160,11 @@ class DiveRepository:
                 "name":{
                     "contains":name
                 }
+            },
+            include={
+                "ownersDive":True,
+                "photo":True,
+                "recipes":True,
             }
         )
 
@@ -139,7 +180,7 @@ class DiveRepository:
                 "id":dive_id
             },
             data={
-                "owner":new_owner
+                "ownersDive":new_owner
             }
         )
 

@@ -5,24 +5,34 @@ class RecipeRepository:
     async def create(self, data:CreateRecipeDTO):
         await prisma.connect()
 
-        recipe = await prisma.recipe.create(data={
-            "name": data.name,
-            "description": data.description,
-            "userId": data.userId,
-            "diveId": data.diveId,
-            "fileId": data.fileId,
-            "ingredients": {
-                "create": [
-                    {
-                        "name": ingredient.name,
-                        "amount": ingredient.amount,
-                        "unit": ingredient.unit
+        recipe = await prisma.recipe.create(
+            data={
+                "name": data.name,
+                "description": data.description,
+                "userId": data.userId,
+                "diveId": data.diveId,
+                "fileId": data.fileId,
+                "ingredients": {
+                    "create": [
+                        {
+                            "name": ingredient.name,
+                            "amount": ingredient.amount,
+                            "unit": ingredient.unit
 
-                    }
-                    for ingredient in data.ingredients
-                ]
-            }   
-        })
+                        }
+                        for ingredient in data.ingredients
+                    ]
+                }   
+            },
+            include={
+                "barn":True,
+                "dive":True,
+                "ingredients":True,
+                "photo":True,
+                "reactions":True,
+                "user":True
+            }
+        )
 
         await prisma.disconnect()
 
@@ -34,10 +44,12 @@ class RecipeRepository:
         recipes = await prisma.recipe.find_many(
             where={},
             include={
-                "user":True,
-                "photo":True,
+                "barn":True,
+                "dive":True,
                 "ingredients":True,
-                "dive":True
+                "photo":True,
+                "reactions":True,
+                "user":True
             }
         )
 
@@ -55,10 +67,12 @@ class RecipeRepository:
                 }
             },
             include={
-                "user": True,
-                "photo":True,
+                "barn":True,
+                "dive":True,
                 "ingredients":True,
-                "dive":True
+                "photo":True,
+                "reactions":True,
+                "user":True
             }
         )
 
@@ -103,3 +117,29 @@ class RecipeRepository:
         await prisma.disconnect()
 
         return reaction
+
+    async def getReactionQuantities(self, recipe_id: str):
+        reaction_quantities = {
+            "bão": 0,
+            "mió de bão": 0,
+            "água na boca": 0
+        }
+
+        try:    
+            await prisma.connect()
+
+            recipe_reactions = await prisma.reaction.find_many(
+                where={"recipeId":recipe_id}
+            )
+
+            await prisma.disconnect()
+
+
+            for reaction in recipe_reactions:
+                if reaction.type in reaction_quantities:
+                    reaction_quantities[reaction.type] += 1
+        except (ValueError):
+            # Lidar com exceção de consulta
+            print(ValueError)
+
+        return reaction_quantities

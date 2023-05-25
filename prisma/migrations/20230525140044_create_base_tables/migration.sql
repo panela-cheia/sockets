@@ -25,9 +25,9 @@ CREATE TABLE "Dive" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "ownerId" TEXT NOT NULL,
     "fileId" TEXT,
-    CONSTRAINT "Dive_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Dive_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Dive_fileId_fkey" FOREIGN KEY ("fileId") REFERENCES "files" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
@@ -91,6 +91,12 @@ CREATE TABLE "files" (
     "updated_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+-- CreateTable
+CREATE TABLE "IngredientsUnit" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 
@@ -105,3 +111,6 @@ CREATE UNIQUE INDEX "UsersDive_userId_diveId_key" ON "UsersDive"("userId", "dive
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Barn_userId_key" ON "Barn"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "IngredientsUnit_name_key" ON "IngredientsUnit"("name");

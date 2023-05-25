@@ -33,30 +33,30 @@ aux4 = {
 aux5 = {
     "topic":"@user/list_others_user",
     "body":{
-        "id":"f98ae2bf-ea2e-4e0e-b6af-469c0193ea2d"
+        "id":"f57255d9-afc0-478e-949b-0301f0bc05d0"
     }
 }
 
 aux6 = {
     "topic":"@user/follow_user",
     "body":{
-        "user_id":"15559c81-0d4a-47b8-ba7a-a468b62e7217",
-        "follow_id":"f98ae2bf-ea2e-4e0e-b6af-469c0193ea2d"
+        "user_id":"5ca07281-0e46-4abc-8f1f-54b61ca27631",
+        "follow_id":"f57255d9-afc0-478e-949b-0301f0bc05d0"
     }
 }
 
 aux7 = {
     "topic":"@user/unfollow_user",
     "body":{
-        "user_id":"15559c81-0d4a-47b8-ba7a-a468b62e7217",
-        "unfollow_id":"f98ae2bf-ea2e-4e0e-b6af-469c0193ea2d"
+        "user_id":"5ca07281-0e46-4abc-8f1f-54b61ca27631",
+        "unfollow_id":"f57255d9-afc0-478e-949b-0301f0bc05d0"
     }
 }
 
 aux8 = {
     "topic":"@user/update_user",
     "body":{
-        "id":"15559c81-0d4a-47b8-ba7a-a468b62e7217",
+        "id":"75621072-e6b5-49ae-a5ff-424707d534b2",
         "bio":"amo comer!",
         "name": "Vinicius Mendes",
         "username": "@vinicmendes"
@@ -66,8 +66,8 @@ aux8 = {
 aux9 = {
     "topic":"@user/update_photo_user",
     "body":{
-        "id":"15559c81-0d4a-47b8-ba7a-a468b62e7217",
-        "photo": "51ce99f5-0223-4c63-b57e-24de13f37038"
+        "id":"823e3881-bda1-4f2a-9593-83c8d7fd0044",
+        "photo": "9efa6ab2-f2c0-4985-b4ff-a66f07377fd5"
     }
 }
 
@@ -81,22 +81,22 @@ aux10 = {
 aux11 = {
     "topic":"@file/delete_file",
     "body":{
-        "id":"f16c8840-5c8c-4481-9dd4-0952583eb609"
+        "id":"f5881021-ab63-46d5-bce2-dfe91c5c1111"
     }
 }
 
 aux12 = {
     "topic":"@barn/save_recipe_barn",
     "body":{
-        "id":"45e10356-681a-4593-a438-9ec90871c804",
-        "recipe_id":"d63222be-f90d-4e1b-a39f-bbb741fc3af0"
+        "id":"fdbe4ceb-2895-40bb-bc19-55190ee3f555",
+        "recipe_id":"9994cd6f-1b2e-4456-93f7-6bff90a19fb3"
     }
 }
 
 aux13 = {
     "topic":"@barn/search_recipe_barn",
     "body":{
-        "id":"45e10356-681a-4593-a438-9ec90871c804",
+        "id":"fdbe4ceb-2895-40bb-bc19-55190ee3f555",
         "name":"Receita"
     }
 }
@@ -104,8 +104,8 @@ aux13 = {
 aux14 = {
     "topic":"@barn/remove_recipe_barn",
     "body":{
-        "id":"45e10356-681a-4593-a438-9ec90871c804",
-        "recipe_id":"d63222be-f90d-4e1b-a39f-bbb741fc3af0"
+        "id":"fdbe4ceb-2895-40bb-bc19-55190ee3f555",
+        "recipe_id":"9994cd6f-1b2e-4456-93f7-6bff90a19fb3"
     }
 }
 
@@ -114,8 +114,8 @@ aux15 = {
     "body":{
         "name":"New",
         "description":"new recipe",
-        "userId":"15559c81-0d4a-47b8-ba7a-a468b62e7217",
-        "fileId":"51ce99f5-0223-4c63-b57e-24de13f37038",
+        "userId":"f57255d9-afc0-478e-949b-0301f0bc05d0",
+        "fileId":"39daafaf-06cd-475d-818d-717942c16506",
         "ingredients":[
             {"name": "Ingredient 1", "amount": 1, "unit": "cup"},
             {"name": "Ingredient 2", "amount": 2, "unit": "teaspoon"},
@@ -134,8 +134,8 @@ aux17 = {
     "topic":"@recipe/reaction_recipe",
     "body":{
         "type":"bão",
-        "recipe_id":"d63222be-f90d-4e1b-a39f-bbb741fc3af0",
-        "user_id":"9badd489-fe3f-4b93-a20d-caaa621d4213"
+        "recipe_id":"ab066eb8-0f05-434d-abad-fc1a8027d94f",
+        "user_id":"5ca07281-0e46-4abc-8f1f-54b61ca27631"
     }
 }
 
@@ -149,43 +149,43 @@ aux18 = {
 aux19 = {
     "topic":"@dive/create_dive",
     "body":{
-        "name":"Buteco Teste Owner3",
-        "description":"Buteco do Zé",
-        "fileId":"51ce99f5-0223-4c63-b57e-24de13f37038",
-        "userId":"15559c81-0d4a-47b8-ba7a-a468b62e7217"
+        "name":"Açai",
+        "description":"açai é legal, nutela é legal!",
+        "fileId":"4a3dbb52-1076-4ef4-9c5e-306cf785091b",
+        "userId":"f57255d9-afc0-478e-949b-0301f0bc05d0"
     }
 }
 
 aux20 = {
     "topic":"@dive/search_dive",
     "body":{
-        "name":"buteco"
+        "name":"Bte"
     }
 }
 
 aux21 = {
     "topic":"@dive/enter_dive",
     "body":{
-        "id":"aea42f09-5372-4ed2-ad49-dbc65e327dcb",
-        "diveId":"76806064-77aa-4570-b85f-5f87d1152338"
+        "id":"823e3881-bda1-4f2a-9593-83c8d7fd0044",
+        "diveId":"b9339c14-daba-4cc9-b736-50ac8da36d88"
     }
 }
 
 aux22 = {
     "topic":"@dive/exit_dive",
     "body":{
-        "user":"9badd489-fe3f-4b93-a20d-caaa621d4213",
-        "new_owner":"15559c81-0d4a-47b8-ba7a-a468b62e7217",
-        "diveId":"76806064-77aa-4570-b85f-5f87d1152338"
+        "user":"823e3881-bda1-4f2a-9593-83c8d7fd0044",
+        "new_owner": None,
+        "diveId":"b9339c14-daba-4cc9-b736-50ac8da36d88"
     }
 }
 
 aux23 = {
     "topic":"@dive/exit_dive",
     "body":{
-        "user":"9badd489-fe3f-4b93-a20d-caaa621d4213",
-        "new_owner":"aea42f09-5372-4ed2-ad49-dbc65e327dcb",
-        "diveId":"76806064-77aa-4570-b85f-5f87d1152338"
+        "user":"f57255d9-afc0-478e-949b-0301f0bc05d0",
+        "new_owner":"823e3881-bda1-4f2a-9593-83c8d7fd0044",
+        "diveId":"b9339c14-daba-4cc9-b736-50ac8da36d88"
     }
 }
 
