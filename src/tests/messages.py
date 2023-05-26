@@ -1,9 +1,9 @@
 aux1 = {
     "topic":"@user/create_user",
     "body":{
-        "name":"teste",
-        "username":"@teste",
-        "email":"teste@gmail.com",
+        "name":"João de Barro",
+        "username":"@joaodebarro",
+        "email":"joao.de.barro@gmail.com",
         "password":"12345678"
     }
 }
@@ -40,8 +40,8 @@ aux5 = {
 aux6 = {
     "topic":"@user/follow_user",
     "body":{
-        "user_id":"5ca07281-0e46-4abc-8f1f-54b61ca27631",
-        "follow_id":"f57255d9-afc0-478e-949b-0301f0bc05d0"
+        "user_id":"823e3881-bda1-4f2a-9593-83c8d7fd0044",
+        "follow_id":"5ca07281-0e46-4abc-8f1f-54b61ca27631"
     }
 }
 
@@ -67,7 +67,7 @@ aux9 = {
     "topic":"@user/update_photo_user",
     "body":{
         "id":"823e3881-bda1-4f2a-9593-83c8d7fd0044",
-        "photo": "9efa6ab2-f2c0-4985-b4ff-a66f07377fd5"
+        "photo": "96a89a09-6d2b-431f-8216-f5403b45cea3"
     }
 }
 
@@ -166,7 +166,7 @@ aux20 = {
 aux21 = {
     "topic":"@dive/enter_dive",
     "body":{
-        "id":"823e3881-bda1-4f2a-9593-83c8d7fd0044",
+        "id":"75621072-e6b5-49ae-a5ff-424707d534b2",
         "diveId":"b9339c14-daba-4cc9-b736-50ac8da36d88"
     }
 }
@@ -174,9 +174,9 @@ aux21 = {
 aux22 = {
     "topic":"@dive/exit_dive",
     "body":{
-        "user":"823e3881-bda1-4f2a-9593-83c8d7fd0044",
+        "user":"f57255d9-afc0-478e-949b-0301f0bc05d0",
         "new_owner": None,
-        "diveId":"b9339c14-daba-4cc9-b736-50ac8da36d88"
+        "diveId":"4ebc6c64-7f1b-41f4-90e5-47c5e1456920"
     }
 }
 
@@ -195,5 +195,13 @@ aux24 = {
         "user":"9badd489-fe3f-4b93-a20d-caaa621d4213",
         "new_owner":"",
         "diveId":"76806064-77aa-4570-b85f-5f87d1152338"
+    }
+}
+
+aux25 = {
+    "topic":"@user/search_users_user",
+    "body":{
+        "user_id":"75621072-e6b5-49ae-a5ff-424707d534b2",
+        "value": "a"
     }
 }

@@ -229,3 +229,70 @@ class UserRepository:
         await prisma.disconnect()
 
         return users
+    
+    async def searchUser(self,user_id:str,value:str):
+        await prisma.connect()
+
+        users = await prisma.user.find_many(
+            where={
+                "OR":[
+                    {
+                        "name":{
+                            "contains":value
+                        }
+                    },
+                    {
+                        "username":{
+                            "contains":value
+                        }
+                    }
+                ],
+                "NOT":{
+                    "id":user_id
+                }
+            },
+            include={
+                "photo":True,
+                "followers":True,
+                "usersDive":True
+            },
+            order={
+                "username":"asc"
+            }
+        )
+
+        results = []
+
+        for user in users:
+            common_followers = 0
+            common_dives = 0
+
+            
+            if user.followers is not None:
+                common_followers = await prisma.follows.count(
+                    where={
+                        "followingId":user_id,
+                        "followerId":user.id
+                    }
+                )
+            
+            if user.usersDive is not None:
+                common_dives = await prisma.usersdive.count(
+                    where={
+                        "userId":user_id,
+                        "diveId":{"in":[users_dive.diveId for users_dive in user.usersDive]}
+                    }
+                )
+
+            result = {
+                "user":user,
+                "common_followers":common_followers,
+                "common_dives": common_dives
+            }
+
+            results.append(result)
+
+
+        await prisma.disconnect()
+
+        return results

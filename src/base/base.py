@@ -22,6 +22,7 @@ from modules.users.useCases.login_user import LoginUserUseCase
 from modules.users.useCases.login_user_with_username import LoginUserWithUsernameUseCase
 from modules.users.useCases.follow_user import FollowUserUseCase
 from modules.users.useCases.unfollow_user import UnfollowUserUseCase
+from modules.users.useCases.search_users import SearchUsersUseCase
 
 from modules.files.useCases.create_file import CreateFileUseCase
 from modules.files.useCases.delete_file import DeleteFileUseCase
@@ -83,6 +84,7 @@ class Bootstrap:
         unfollowUserUseCase= UnfollowUserUseCase(userRepository=userRepository)
         updateUserUseCase= UpdateUserUseCase(userRepository=userRepository)
         updatePhotoUserUseCase = UpdatePhotoUserUseCase(userRepository=userRepository)
+        searchUsersUseCase = SearchUsersUseCase(userRepository=userRepository)
 
         createFileUseCase = CreateFileUseCase(repository=filesRepository)
         deleteFileUseCase = DeleteFileUseCase(repository=filesRepository)
@@ -163,6 +165,10 @@ class Bootstrap:
         elif topic == Topics.USER_UPDATE_PHOTO.value:
             update = await updatePhotoUserUseCase.execute(id=body["id"],photo=body["photo"])
             logger.info("{topic} - {response}",topic=Topics.USER_UPDATE_PHOTO.value,response=update)
+        
+        elif topic == Topics.USER_SEARCH_USERS.value:
+            users = await searchUsersUseCase.execute(user_id=body["user_id"],value=body["value"])
+            logger.info("{topic} - {response}",topic=Topics.USER_SEARCH_USERS.value,response=json.dumps(users,indent=4,ensure_ascii=False))
 
         elif topic == Topics.BARN_SEARCH_RECIPE.value:
             dto = SearchRecipeInBarnDTO(barnId=body["id"],recipeName=body["name"])
