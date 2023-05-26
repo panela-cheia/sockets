@@ -112,8 +112,8 @@ aux14 = {
 aux15 = {
     "topic":"@recipe/create_recipe",
     "body":{
-        "name":"New",
-        "description":"new recipe",
+        "name":"tests datetime",
+        "description":"new recipe tests datetime",
         "userId":"f57255d9-afc0-478e-949b-0301f0bc05d0",
         "fileId":"39daafaf-06cd-475d-818d-717942c16506",
         "ingredients":[

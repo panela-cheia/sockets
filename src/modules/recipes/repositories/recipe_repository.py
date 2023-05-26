@@ -42,14 +42,20 @@ class RecipeRepository:
         await prisma.connect()
 
         recipes = await prisma.recipe.find_many(
-            where={},
+            where={
+                
+            },
             include={
                 "barn":True,
                 "dive":True,
                 "ingredients":True,
                 "photo":True,
                 "reactions":True,
-                "user":True
+                "user":{
+                    "include":{
+                        "photo":True
+                    }
+                }
             }
         )
 
