@@ -5,3 +5,6 @@ all:
 
 populate:
 	python3 -B prisma/seed.py
+
+test:
+	python3 -B src/test-server.py

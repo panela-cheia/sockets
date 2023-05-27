@@ -4,5 +4,5 @@ import os
 load_dotenv()
 
 HOST = os.getenv('HOST')
-PORT = os.getenv('PORT')
-APP_URL = HOST + ":" + PORT
+PORT = int(os.getenv('PORT'))
+APP_URL = HOST + ":" + str(PORT)
