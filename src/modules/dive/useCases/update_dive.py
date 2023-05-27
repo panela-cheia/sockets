@@ -8,8 +8,22 @@ class UpdateDiveUseCase:
     async def execute(self,updateDiveDTO:UpdateDiveDTO):
         verifyIfDiveNameAlreadyExists = await self.repository.findDiveByName(updateDiveDTO.name)
 
-
         if verifyIfDiveNameAlreadyExists:
             raise ValueError("This name has already been registered!")
         
-        return await self.repository.update(updateDiveDTO=updateDiveDTO)
+        verifyIfDiveExists = await self.repository.findDiveById(dive_id=updateDiveDTO.id)
+
+        if not verifyIfDiveExists:
+            raise ValueError("This dive not exists!")
+
+        try:
+            if not updateDiveDTO.description:
+                updateDiveDTO.description = verifyIfDiveExists.description
+
+            await self.repository.update(updateDiveDTO=updateDiveDTO)
+        except (ValueError):
+            raise Exception(ValueError)
+        
+        data = { "ok": "dive updated successfully!" }
+
+        return data

@@ -290,7 +290,15 @@ class Bootstrap:
             logger.info("{topic} - {response}",topic=Topics.DIVE_EXIT.value,response=json.dumps(dive,indent=4,ensure_ascii=False))
 
         elif topic == Topics.DIVE_UPDATE.value:
-            print(Topics.DIVE_UPDATE.value)
+            dto = UpdateDiveDTO(
+                id=body["id"],
+                description=body["description"] if "description" in body else None,
+                fileId=body["fileId"] if "fileId" in body else None,
+                name=body["name"] if "name" in body else None,
+            )
+
+            dive_updated = await updateDiveUseCase.execute(updateDiveDTO=dto)
+            logger.info("{topic} - {response}",topic=Topics.DIVE_UPDATE.value,response=json.dumps(dive_updated,indent=4,ensure_ascii=False))
 
         elif topic == Topics.DIVE_USERS_DIVE.value:
             dives = await listUserDiveUseCase.execute(user_id=body["user_id"])

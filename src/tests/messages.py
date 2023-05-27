@@ -272,3 +272,12 @@ aux34 = {
        
     }
 }
+
+aux35 = {
+    "topic": "@dive/update_dive",
+    "body": {
+        "id": "b9339c14-daba-4cc9-b736-50ac8da36d88",
+        "name": "Açai!",
+        "description":"teste"
+    }
+}

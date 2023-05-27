@@ -80,14 +80,17 @@ class DiveRepository:
     async def findDiveByName(self, name):
         await prisma.connect()
 
-        dive = await prisma.dive.find_unique(
+        dive = await prisma.dive.find_first(
             where={
-                "name": name
+                "name": {
+                    "equals":name
+                }
             },
             include={
-                "ownersDive":True,
                 "photo":True,
-                "recipes":True
+                "recipe":True,
+                "members":True,
+                "owner":True
             }
         )
 
@@ -158,9 +161,7 @@ class DiveRepository:
                 "name":updateDiveDTO.name
             },
             include={
-                "ownersDive":True,
-                "photo":True,
-                "recipes":True
+                "photo":True
             }
         )
 
