@@ -1,9 +1,9 @@
 aux1 = {
     "topic":"@user/create_user",
     "body":{
-        "name":"João de Barro",
-        "username":"@joaodebarro",
-        "email":"joao.de.barro@gmail.com",
+        "name":"João da Silva",
+        "username":"@joaodasilva",
+        "email":"joao.da.silva@gmail.com",
         "password":"12345678"
     }
 }
@@ -112,10 +112,10 @@ aux14 = {
 aux15 = {
     "topic":"@recipe/create_recipe",
     "body":{
-        "name":"tests datetime",
-        "description":"new recipe tests datetime",
-        "userId":"f57255d9-afc0-478e-949b-0301f0bc05d0",
-        "fileId":"39daafaf-06cd-475d-818d-717942c16506",
+        "name":"dive-2",
+        "description":"testar dive",
+        "userId":"5229e1fa-5b96-48eb-bcec-49f4b413ea7b",
+        "fileId":"ea86b599-dbdb-4ba6-8a1b-aca310150c4e",
         "ingredients":[
             {"name": "Ingredient 1", "amount": 1, "unit": "cup"},
             {"name": "Ingredient 2", "amount": 2, "unit": "teaspoon"},
@@ -123,6 +123,8 @@ aux15 = {
         ]
     }
 }
+ 
+# "diveId":"b9339c14-daba-4cc9-b736-50ac8da36d88",
 
 aux16 = {
     "topic":"@recipe/list_recipe",
@@ -159,7 +161,7 @@ aux19 = {
 aux20 = {
     "topic":"@dive/search_dive",
     "body":{
-        "name":"Bte"
+        "name":"a"
     }
 }
 
@@ -200,6 +202,28 @@ aux24 = {
 
 aux25 = {
     "topic":"@user/search_users_user",
+    "body":{
+        "user_id":"75621072-e6b5-49ae-a5ff-424707d534b2",
+        "value": "a"
+    }
+}
+
+aux26 = {
+    "topic": "@dive/users_dive",
+    "body": {
+        "user_id":"823e3881-bda1-4f2a-9593-83c8d7fd0044"
+    }
+}
+
+aux27 = {
+    "topic": "@dive/list_recipes_dive",
+    "body": {
+        "dive_id":"b9339c14-daba-4cc9-b736-50ac8da36d88"
+    }
+}
+
+aux28 = {
+    "topic":"@search/dive_and_users",
     "body":{
         "user_id":"75621072-e6b5-49ae-a5ff-424707d534b2",
         "value": "a"

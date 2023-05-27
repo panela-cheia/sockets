@@ -53,7 +53,23 @@ class DiveRepository:
             include={
                 "owner":True,
                 "photo":True,
-                "recipe":True
+                "recipe":{
+                    "include":{
+                        "barn":True,
+                        "dive":True,
+                        "ingredients":True,
+                        "photo":True,
+                        "reactions":True,
+                        "user":{
+                            "include":{
+                                "photo":True
+                            }
+                        }
+                    },
+                    "order_by":{
+                        "created_at":"desc"
+                    }
+                }
             }
         )
 
@@ -152,7 +168,7 @@ class DiveRepository:
 
         return dive
     
-    async def findAll(self,name):
+    async def findAll(self, name:str):
         await prisma.connect()
 
         dives = await prisma.dive.find_many(
@@ -162,9 +178,10 @@ class DiveRepository:
                 }
             },
             include={
-                "ownersDive":True,
+                "owner":True,
                 "photo":True,
-                "recipes":True,
+                "recipe":True,
+                "members":True
             }
         )
 
@@ -185,4 +202,43 @@ class DiveRepository:
         )
 
         await prisma.disconnect()
+        return dives
+    
+    async def findUserDive(self,user_id):
+        await prisma.connect()
+
+        dives = await prisma.usersdive.find_many(
+            where={
+                "userId":{
+                    "equals":user_id
+                }
+            },
+            include={
+                "dive":{
+                    "include":{
+                        "photo":True,
+                        "recipe":{
+                            "include":{
+                                "photo":True
+                            }
+                        },
+                        "members":{
+                            "include":{
+                                "user":True
+                            }
+                        },
+                        
+                    }
+                },
+                
+                "user":{
+                    "include":{
+                        "photo":True
+                    }
+                }
+            }
+        )
+
+        await prisma.disconnect()
+
         return dives

@@ -29,3 +29,7 @@ class Topics(str,Enum):
     DIVE_ENTER = "@dive/enter_dive"
     DIVE_EXIT = "@dive/exit_dive"
     DIVE_UPDATE = "@dive/update_dive"
+    DIVE_USERS_DIVE  = "@dive/users_dive"
+    DIVE_LIST_RECIPES  = "@dive/list_recipes_dive"
+
+    SEARCH_DIVE_AND_USERS = "@search/dive_and_users"

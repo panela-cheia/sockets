@@ -5,6 +5,8 @@ class RecipeRepository:
     async def create(self, data:CreateRecipeDTO):
         await prisma.connect()
 
+        print(data.diveId)
+
         recipe = await prisma.recipe.create(
             data={
                 "name": data.name,
@@ -56,6 +58,9 @@ class RecipeRepository:
                         "photo":True
                     }
                 }
+            },
+            order={
+                "created_at":"desc"
             }
         )
 

@@ -4,6 +4,7 @@ from modules.users.dtos.create_user_dto import CreateUserDTO
 from providers.hash import hash
 
 from shared.errors.errors import CustomError
+from utils.serializator.create_user import createUserSerializator
 
 class CreateUserUseCase:
     def __init__(self,userRepository:UserRepository) -> None:
@@ -33,6 +34,7 @@ class CreateUserUseCase:
                 password=passwordHash,
                 email=createUserDTO.email
             )
-            return user
+
+            return createUserSerializator(user=user)
         except:
             raise Exception("An error occurred during user creation")

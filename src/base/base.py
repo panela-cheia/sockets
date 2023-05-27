@@ -41,6 +41,10 @@ from modules.dive.useCases.enter_dive import EnterDiveUseCase
 from modules.dive.useCases.exit_dive import ExitDiveUseCase
 from modules.dive.useCases.update_dive import UpdateDiveUseCase
 from modules.dive.useCases.search_dive import SearchDiveUseCase
+from modules.dive.useCases.list_users_dive import ListUserDiveUseCase
+from modules.dive.useCases.list_dive_recipes_usecase import ListDiveRecipesUseCase
+
+from modules.search.useCases.search_dive_and_users_usecase import SearchDiveAndUserUseCase
 
 # dtos
 from modules.users.dtos.create_user_dto import CreateUserDTO
@@ -59,6 +63,8 @@ from modules.dive.dtos.exit_dive_dto import ExitDiveDTO
 from modules.barn.dtos.save_recipe_dto import BarnSaveRecipeDTO
 from modules.barn.dtos.search_recipe_in_barn_dto import SearchRecipeInBarnDTO
 from modules.barn.dtos.remove_recipe_dto import RemoveRecipeDTO
+
+from modules.search.dtos.search_dive_and_users_dto import SearchDiveAndUserDTO
 
 # utils
 from utils.convert_list_convert_to_ingredient_dtos import convert_list_to_ingredient_dtos
@@ -104,6 +110,10 @@ class Bootstrap:
         exitDiveUseCase = ExitDiveUseCase(repository=diveRepository)
         updateDiveUseCase = UpdateDiveUseCase(repository=diveRepository)
         searchDiveUseCase = SearchDiveUseCase(repository=diveRepository)
+        listUserDiveUseCase = ListUserDiveUseCase(repository=diveRepository)
+        listDiveRecipesUseCase = ListDiveRecipesUseCase(repository=diveRepository,recipeRepository=recipeRepository)
+
+        searchDiveAndUserUseCase = SearchDiveAndUserUseCase(userRepository=userRepository,diveRepository=diveRepository)
 
         content = json.loads(message)
 
@@ -123,18 +133,18 @@ class Bootstrap:
 
             try:
                 user = await createUserUseCase.execute(createUserDTO=createUserDTO)
-                logger.info("{topic} - {user}",topic=Topics.USER_CREATE.value,user=user)
+                logger.info("{topic} - {user}",topic=Topics.USER_CREATE.value,user=json.dumps(user,indent=4,ensure_ascii=False))
 
             except (ValueError):
                 raise Exception(ValueError)
 
         elif topic == Topics.USER_LOGIN_EMAIL.value:
             user = await loginUserUseCase.execute(email=body["email"],password=body["password"])
-            logger.info("{topic} - {user}",topic=Topics.USER_LOGIN_EMAIL.value,user=user)
+            logger.info("{topic} - {user}",topic=Topics.USER_LOGIN_EMAIL.value,user=json.dumps(user,indent=4,ensure_ascii=False))
 
         elif topic == Topics.USER_LOGIN_USERNAME.value:
             user = await loginUserWithUsernameUseCase.execute(username=body["username"],password=body["password"])
-            logger.info("{topic} - {user}",topic=Topics.USER_LOGIN_USERNAME.value,user=user)
+            logger.info("{topic} - {user}",topic=Topics.USER_LOGIN_USERNAME.value,user=json.dumps(user,indent=4,ensure_ascii=False))
 
         elif topic == Topics.USER_LIST.value:
             users = await listAllUsersUseCase.execute()
@@ -201,7 +211,8 @@ class Bootstrap:
                 description=body["description"],
                 ingredients=convert_list_to_ingredient_dtos(data=body["ingredients"]),
                 userId=body["userId"],
-                fileId=body["fileId"]
+                fileId=body["fileId"],
+                diveId=body["diveId"] if "diveId" in body else None
             )
 
             recipe = await createRecipeUseCase.execute(data=createRecipeDTO)
@@ -234,7 +245,7 @@ class Bootstrap:
         
         elif topic == Topics.DIVE_SEARCH.value:
             dive = await searchDiveUseCase.execute(diveName=body["name"])
-            logger.info("{topic} - {response}",topic=Topics.DIVE_SEARCH.value,response=dive)
+            logger.info("{topic} - {response}",topic=Topics.DIVE_SEARCH.value,response=json.dumps(dive,indent=4,ensure_ascii=False))
 
         elif topic == Topics.DIVE_ENTER.value:
             dive = await enterDiveUseCase.execute(user_id=body["id"],dive_id=body["diveId"])
@@ -252,3 +263,18 @@ class Bootstrap:
 
         elif topic == Topics.DIVE_UPDATE.value:
             print(Topics.DIVE_UPDATE.value)
+
+        elif topic == Topics.DIVE_USERS_DIVE.value:
+            dives = await listUserDiveUseCase.execute(user_id=body["user_id"])
+            logger.info("{topic} - {response}",topic=Topics.DIVE_USERS_DIVE.value,response=json.dumps(dives,indent=4,ensure_ascii=False))
+
+        elif topic == Topics.DIVE_LIST_RECIPES.value:
+            dives = await listDiveRecipesUseCase.execute(dive_id=body["dive_id"])
+            logger.info("{topic} - {response}",topic=Topics.DIVE_LIST_RECIPES.value,response=json.dumps(dives,indent=4,ensure_ascii=False))
+
+        elif topic == Topics.SEARCH_DIVE_AND_USERS.value:
+            dto = SearchDiveAndUserDTO(user_id=body["user_id"],search_value=body["value"])
+
+            data = await searchDiveAndUserUseCase.execute(data=dto)
+
+            logger.info("{topic} - {response}",topic=Topics.SEARCH_DIVE_AND_USERS.value,response=json.dumps(data,indent=4,ensure_ascii=False))
