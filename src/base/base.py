@@ -23,6 +23,7 @@ from modules.users.useCases.login_user_with_username import LoginUserWithUsernam
 from modules.users.useCases.follow_user import FollowUserUseCase
 from modules.users.useCases.unfollow_user import UnfollowUserUseCase
 from modules.users.useCases.search_users import SearchUsersUseCase
+from modules.users.useCases.user_profile import UserProfileUseCase
 
 from modules.files.useCases.create_file import CreateFileUseCase
 from modules.files.useCases.delete_file import DeleteFileUseCase
@@ -91,6 +92,7 @@ class Bootstrap:
         updateUserUseCase= UpdateUserUseCase(userRepository=userRepository)
         updatePhotoUserUseCase = UpdatePhotoUserUseCase(userRepository=userRepository)
         searchUsersUseCase = SearchUsersUseCase(userRepository=userRepository)
+        userProfileUseCase = UserProfileUseCase(userRepository=userRepository)
 
         createFileUseCase = CreateFileUseCase(repository=filesRepository)
         deleteFileUseCase = DeleteFileUseCase(repository=filesRepository)
@@ -180,6 +182,10 @@ class Bootstrap:
             users = await searchUsersUseCase.execute(user_id=body["user_id"],value=body["value"])
             logger.info("{topic} - {response}",topic=Topics.USER_SEARCH_USERS.value,response=json.dumps(users,indent=4,ensure_ascii=False))
 
+        elif topic == Topics.USER_PROFILE.value:
+            user = await userProfileUseCase.execute(user_id=body["user_id"])
+            logger.info("{topic} - {response}",topic=Topics.USER_PROFILE.value,response=json.dumps(user,indent=4,ensure_ascii=False))
+
         elif topic == Topics.BARN_SEARCH_RECIPE.value:
             dto = SearchRecipeInBarnDTO(barnId=body["id"],recipeName=body["name"])
             recipes = await searchRecipeUseCase.execute(data=dto)
@@ -188,12 +194,12 @@ class Bootstrap:
         elif topic == Topics.BARN_SAVE_RECIPE.value:
             dto = BarnSaveRecipeDTO(barnId=body["id"],recipeId=body["recipe_id"])
             barn = await saveRecipeInBarnUseCase.execute(data=dto)
-            logger.info("{topic} - {response}",topic=Topics.BARN_SAVE_RECIPE.value,response=barn)
+            logger.info("{topic} - {response}",topic=Topics.BARN_SAVE_RECIPE.value,response=json.dumps(barn,indent=4,ensure_ascii=False))
 
         elif topic == Topics.BARN_REMOVE_RECIPE.value:
             dto = RemoveRecipeDTO(barnId=body["id"],recipeId=body["recipe_id"])
             barn = await removeRecipeUseCase.execute(data=dto)
-            logger.info("{topic} - {response}",topic=Topics.BARN_REMOVE_RECIPE.value,response=barn)
+            logger.info("{topic} - {response}",topic=Topics.BARN_REMOVE_RECIPE.value,response=json.dumps(barn,indent=4,ensure_ascii=False))
 
         elif topic == Topics.FILE_CREATE.value:
             createFileDTO = CreateFileDTO(name=body["name"])

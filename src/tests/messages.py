@@ -88,8 +88,8 @@ aux11 = {
 aux12 = {
     "topic":"@barn/save_recipe_barn",
     "body":{
-        "id":"fdbe4ceb-2895-40bb-bc19-55190ee3f555",
-        "recipe_id":"9994cd6f-1b2e-4456-93f7-6bff90a19fb3"
+        "id":"2eff2c98-8615-412b-a485-046cb4710b86",
+        "recipe_id":"d0b81134-2a5f-43e7-86fa-3c9b04badf0e"
     }
 }
 
@@ -104,8 +104,8 @@ aux13 = {
 aux14 = {
     "topic":"@barn/remove_recipe_barn",
     "body":{
-        "id":"fdbe4ceb-2895-40bb-bc19-55190ee3f555",
-        "recipe_id":"9994cd6f-1b2e-4456-93f7-6bff90a19fb3"
+        "id":"2eff2c98-8615-412b-a485-046cb4710b86",
+        "recipe_id":"d0b81134-2a5f-43e7-86fa-3c9b04badf0e"
     }
 }
 
@@ -227,5 +227,12 @@ aux28 = {
     "body":{
         "user_id":"75621072-e6b5-49ae-a5ff-424707d534b2",
         "value": "a"
+    }
+}
+
+aux29 = {
+    "topic":"@user/profile_user",
+    "body":{
+        "user_id":"f57255d9-afc0-478e-949b-0301f0bc05d0",
     }
 }

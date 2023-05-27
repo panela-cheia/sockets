@@ -11,6 +11,7 @@ class Topics(str,Enum):
     USER_UPDATE = "@user/update_user"
     USER_UPDATE_PHOTO = "@user/update_photo_user"
     USER_SEARCH_USERS = "@user/search_users_user"
+    USER_PROFILE = "@user/profile_user"
 
     BARN_SEARCH_RECIPE = "@barn/search_recipe_barn"
     BARN_SAVE_RECIPE = "@barn/save_recipe_barn"

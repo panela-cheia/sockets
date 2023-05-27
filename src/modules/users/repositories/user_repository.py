@@ -98,7 +98,13 @@ class UserRepository:
                 "ownersDive":True,
                 "photo":True,
                 "reactions":True,
-                "recipes":True,
+                "recipes":{
+                    "include":{
+                        "ingredients":True,
+                        "reactions":True,
+                        "photo":True
+                    }
+                },
                 "usersDive":True
             }
         )

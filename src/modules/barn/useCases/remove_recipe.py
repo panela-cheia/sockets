@@ -7,6 +7,14 @@ class RemoveRecipeUseCase:
         self.repository = repository
 
     async def execute(self, data: RemoveRecipeDTO):
-        barn =  await self.repository.removeRecipe(data=data)
+        try:
+            barn =  await self.repository.removeRecipe(data=data)
 
-        return barn
+            if not barn:
+                raise ValueError("User does not exist") 
+
+            response = {"ok":"removed in barn!"}
+
+            return response
+        except (ValueError):
+            raise Exception(ValueError) 

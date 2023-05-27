@@ -3,7 +3,6 @@ def searchUsersSerializator(user):
     user_dict = user["user"].__dict__
 
     result = {
-
         "id": user_dict["id"],
         "name": user_dict["name"],
         "username": user_dict["username"],
