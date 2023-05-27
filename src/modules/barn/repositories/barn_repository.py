@@ -42,8 +42,14 @@ class BarnRepository:
                 "id": barnId
             },
             include={
-                "recipes":True,
-                "user":True
+                "recipes":{
+                    "include":{
+                        "photo":True,
+                        "ingredients":True
+                    }
+                },
+                "user":True,
+
             }
         )
 

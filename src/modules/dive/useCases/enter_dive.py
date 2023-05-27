@@ -26,4 +26,6 @@ class EnterDiveUseCase:
         # Criar o relacionamento
         await self.repository.enterDive(user_id, dive_id)
 
-        return "Successfully joined the dive"
+        data = { "ok": "Successfully joined the dive"  }
+
+        return data

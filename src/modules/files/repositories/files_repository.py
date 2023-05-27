@@ -1,7 +1,5 @@
 from shared.infra.prisma import prisma
 
-from config.app_url import APP_URL
-
 class FilesRepository:
     async def create(self,name:str,path:str):
 

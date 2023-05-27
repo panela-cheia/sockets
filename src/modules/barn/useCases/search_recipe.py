@@ -1,7 +1,6 @@
 from modules.barn.dtos.search_recipe_in_barn_dto import SearchRecipeInBarnDTO
 from modules.barn.repositories.barn_repository import BarnRepository
 
-
 class SearhRecipeUseCase:
     def __init__(self, repository: BarnRepository):
         self.repository = repository

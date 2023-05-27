@@ -31,4 +31,6 @@ class ExitDiveUseCase:
         
         await self.repository.exitDive(data.user, data.diveId)
 
-        return "Successfully left the dive"
+        response = { "ok": "Successfully left the dive" }
+
+        return response

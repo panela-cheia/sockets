@@ -11,6 +11,7 @@ from modules.files.repositories.files_repository import FilesRepository
 from modules.recipes.repositories.recipe_repository import RecipeRepository
 from modules.dive.repositories.dive_repository import DiveRepository
 from modules.barn.repositories.barn_repository import BarnRepository
+from modules.ingredients_unit.repositories.ingredients_unit_repository import IngredientsUnitRepository
 
 # usecases
 from modules.users.useCases.create_user import CreateUserUseCase
@@ -24,6 +25,8 @@ from modules.users.useCases.follow_user import FollowUserUseCase
 from modules.users.useCases.unfollow_user import UnfollowUserUseCase
 from modules.users.useCases.search_users import SearchUsersUseCase
 from modules.users.useCases.user_profile import UserProfileUseCase
+from modules.users.useCases.search_in_users_barn import SearchInUsersBarnUseCase
+from modules.users.useCases.users_barn import UsersBarnUseCase
 
 from modules.files.useCases.create_file import CreateFileUseCase
 from modules.files.useCases.delete_file import DeleteFileUseCase
@@ -46,6 +49,10 @@ from modules.dive.useCases.list_users_dive import ListUserDiveUseCase
 from modules.dive.useCases.list_dive_recipes_usecase import ListDiveRecipesUseCase
 
 from modules.search.useCases.search_dive_and_users_usecase import SearchDiveAndUserUseCase
+
+from modules.ingredients_unit.useCases.create_ingredients_unit_usecase import CreateIngredientsUnitUseCase
+from modules.ingredients_unit.useCases.delete_ingredients_unit_usecase import DeleleIngredientsUnitUseCase
+from modules.ingredients_unit.useCases.list_ingredients_unit_usecase import ListIngredientsUnitUseCase
 
 # dtos
 from modules.users.dtos.create_user_dto import CreateUserDTO
@@ -81,6 +88,7 @@ class Bootstrap:
         recipeRepository = RecipeRepository()
         diveRepository = DiveRepository()
         barnRepository = BarnRepository()
+        ingredientsUnitRepository = IngredientsUnitRepository()
 
         createUserUseCase = CreateUserUseCase(userRepository=userRepository)
         loginUserUseCase= LoginUserUseCase(userRepository=userRepository)
@@ -93,6 +101,8 @@ class Bootstrap:
         updatePhotoUserUseCase = UpdatePhotoUserUseCase(userRepository=userRepository)
         searchUsersUseCase = SearchUsersUseCase(userRepository=userRepository)
         userProfileUseCase = UserProfileUseCase(userRepository=userRepository)
+        searchInUsersBarnUseCase = SearchInUsersBarnUseCase(userRepository=userRepository,barnRepository=barnRepository)
+        usersBarnUseCase = UsersBarnUseCase(userRepository=userRepository,barnRepository=barnRepository)
 
         createFileUseCase = CreateFileUseCase(repository=filesRepository)
         deleteFileUseCase = DeleteFileUseCase(repository=filesRepository)
@@ -116,6 +126,10 @@ class Bootstrap:
         listDiveRecipesUseCase = ListDiveRecipesUseCase(repository=diveRepository,recipeRepository=recipeRepository)
 
         searchDiveAndUserUseCase = SearchDiveAndUserUseCase(userRepository=userRepository,diveRepository=diveRepository)
+
+        createIngredientsUnitUseCase = CreateIngredientsUnitUseCase(repository=ingredientsUnitRepository)
+        deleleIngredientsUnitUseCase = DeleleIngredientsUnitUseCase(repository=ingredientsUnitRepository)
+        listIngredientsUnitUseCase = ListIngredientsUnitUseCase(repository=ingredientsUnitRepository)
 
         content = json.loads(message)
 
@@ -186,6 +200,14 @@ class Bootstrap:
             user = await userProfileUseCase.execute(user_id=body["user_id"])
             logger.info("{topic} - {response}",topic=Topics.USER_PROFILE.value,response=json.dumps(user,indent=4,ensure_ascii=False))
 
+        elif topic == Topics.USER_SEARCH_IN_BARN.value:
+            user = await searchInUsersBarnUseCase.execute(user_id=body["user_id"],value=body["value"])
+            logger.info("{topic} - {response}",topic=Topics.USER_SEARCH_IN_BARN.value,response=json.dumps(user,indent=4,ensure_ascii=False))
+
+        elif topic == Topics.USER_BARN.value:
+            user = await usersBarnUseCase.execute(user_id=body["user_id"])
+            logger.info("{topic} - {response}",topic=Topics.USER_BARN.value,response=json.dumps(user,indent=4,ensure_ascii=False))
+
         elif topic == Topics.BARN_SEARCH_RECIPE.value:
             dto = SearchRecipeInBarnDTO(barnId=body["id"],recipeName=body["name"])
             recipes = await searchRecipeUseCase.execute(data=dto)
@@ -222,7 +244,7 @@ class Bootstrap:
             )
 
             recipe = await createRecipeUseCase.execute(data=createRecipeDTO)
-            logger.info("{topic} - {response}",topic=Topics.RECIPE_CREATE.value,response=recipe)
+            logger.info("{topic} - {response}",topic=Topics.RECIPE_CREATE.value,response=json.dumps(recipe,indent=4,ensure_ascii=False))
 
         elif topic == Topics.RECIPE_LIST.value:
             recipes = await listRecipesUseCase.execute()
@@ -255,17 +277,17 @@ class Bootstrap:
 
         elif topic == Topics.DIVE_ENTER.value:
             dive = await enterDiveUseCase.execute(user_id=body["id"],dive_id=body["diveId"])
-            logger.info("{topic} - {response}",topic=Topics.DIVE_ENTER.value,response=dive)
+            logger.info("{topic} - {response}",topic=Topics.DIVE_ENTER.value,response=json.dumps(dive,indent=4,ensure_ascii=False))
         
         elif topic == Topics.DIVE_EXIT.value:
             exitDiveDTO = ExitDiveDTO(
                 user=body["user"],
-                new_owner=body["new_owner"],
+                new_owner=body["new_owner"] if "new_owner" in body else None,
                 diveId=body["diveId"]
             )
             
             dive = await exitDiveUseCase.execute(data=exitDiveDTO)
-            logger.info("{topic} - {response}",topic=Topics.DIVE_EXIT.value,response=dive)
+            logger.info("{topic} - {response}",topic=Topics.DIVE_EXIT.value,response=json.dumps(dive,indent=4,ensure_ascii=False))
 
         elif topic == Topics.DIVE_UPDATE.value:
             print(Topics.DIVE_UPDATE.value)
@@ -284,3 +306,14 @@ class Bootstrap:
             data = await searchDiveAndUserUseCase.execute(data=dto)
 
             logger.info("{topic} - {response}",topic=Topics.SEARCH_DIVE_AND_USERS.value,response=json.dumps(data,indent=4,ensure_ascii=False))
+
+        elif topic == Topics.INGREDIENT_UNI_CREATE.value:
+            unit = await createIngredientsUnitUseCase.execute(name=body["name"])
+            logger.info("{topic} - {response}",topic=Topics.INGREDIENT_UNI_CREATE.value,response=json.dumps(unit,indent=4,ensure_ascii=False))
+
+        elif topic == Topics.INGREDIENT_UNIT_DELETE.value:
+            unit = await deleleIngredientsUnitUseCase.execute(id=body["id"])
+            logger.info("{topic} - {response}",topic=Topics.INGREDIENT_UNIT_DELETE.value,response=json.dumps(unit,indent=4,ensure_ascii=False))
+        elif topic == Topics.INGREDIENT_UNIT_LIST.value:
+            units = await listIngredientsUnitUseCase.execute()
+            logger.info("{topic} - {response}",topic=Topics.INGREDIENT_UNIT_LIST.value,response=json.dumps(units,indent=4,ensure_ascii=False))

@@ -6,4 +6,17 @@ class CreateRecipeUseCase:
         self.repository = repository
 
     async def execute(self,data:CreateRecipeDTO):
-        return await self.repository.create(data=data)
+
+        try:
+            recipe =  await self.repository.create(data=data)
+
+            if not recipe:
+                raise Exception("Error to try create recipe!")
+
+            data = {
+                "ok":"recipe created successfully!"
+            }
+
+            return data
+        except (ValueError):
+            raise Exception(ValueError)
