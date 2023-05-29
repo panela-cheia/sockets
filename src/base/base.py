@@ -153,7 +153,7 @@ class Bootstrap:
                 user = await createUserUseCase.execute(createUserDTO=createUserDTO)
                 logger.info("{topic} - {user}",topic=Topics.USER_CREATE.value,user=json.dumps(user,indent=4,ensure_ascii=False))
                 
-                answer = "a"
+                answer = user
             except (ValueError):
                 raise Exception(ValueError)
             
@@ -163,31 +163,31 @@ class Bootstrap:
             user = await loginUserUseCase.execute(email=body["email"],password=body["password"])
             logger.info("{topic} - {user}",topic=Topics.USER_LOGIN_EMAIL.value,user=json.dumps(user,indent=4,ensure_ascii=False))
 
-            answer = "b"
+            answer = user
 
         elif topic == Topics.USER_LOGIN_USERNAME.value:
             user = await loginUserWithUsernameUseCase.execute(username=body["username"],password=body["password"])
             logger.info("{topic} - {user}",topic=Topics.USER_LOGIN_USERNAME.value,user=json.dumps(user,indent=4,ensure_ascii=False))
 
-            answer = "c"
+            answer = user
 
         elif topic == Topics.USER_LIST.value:
             users = await listAllUsersUseCase.execute()
             logger.info("{topic} - {users}",topic=Topics.USER_LIST.value,users=users)
 
-            answer = "d"
+            answer = { "users" :[]}
 
         elif topic == Topics.USER_LIST_OTHERS.value:
             users = await listOthersUseCase.execute(id=body["id"])
             logger.info("{topic} - {users}",topic=Topics.USER_LIST_OTHERS.value,users=users)
 
-            answer = "e"
+            answer = { "users" :[]}
 
         elif topic == Topics.USER_FOLLOW.value:
             follow = await followUserUseCase.execute(user_id=body["user_id"],follow_id=body["follow_id"])
             logger.info("{topic} - {response}",topic=Topics.USER_FOLLOW.value,response=follow)
             
-            answer = "f"
+            answer = follow
 
         elif topic == Topics.USER_UNFOLLOW.value:
             unfollow = await unfollowUserUseCase.execute(user_id=body["user_id"],unfollow_id=body["unfollow_id"])

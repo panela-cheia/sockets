@@ -22,4 +22,4 @@ class UnfollowUserUseCase:
         
         await self.userRepository.deleteFollow(user_id=user_id,unfollow_id=unfollow_id)
 
-        return "Successfully unfollowed user"
+        return { "ok":"Successfully unfollowed user" }

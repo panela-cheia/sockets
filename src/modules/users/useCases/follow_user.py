@@ -35,4 +35,4 @@ class FollowUserUseCase:
         # Criar o relacionamento de seguir
         await self.userRepository.followUser(user_id=user_id,follow_id=follow_id)
         
-        return "Successfully followed user"
+        return { "ok":"Successfully followed user" }
