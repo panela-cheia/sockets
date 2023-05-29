@@ -291,7 +291,8 @@ class Bootstrap:
             recipes = await listRecipesUseCase.execute()
             logger.info("{topic} - {response}",topic=Topics.RECIPE_LIST.value,response=json.dumps(recipes,indent=4,ensure_ascii=False))
 
-            answer = json.dumps(recipes,ensure_ascii=False)
+            #answer = json.dumps(recipes,ensure_ascii=False)
+            answer = recipes
 
         elif topic == Topics.RECIPE_REACTION.value:
             type = ReactionType(body["type"])
