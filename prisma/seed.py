@@ -23,6 +23,61 @@ from src.providers.hash import hash
 # config
 from src.config.app_url import APP_URL
 
+list_ingredients = [
+    {
+        "name":"Unidade"
+    },
+        {
+        "name":"Miligrama (mg)"
+    },
+        {
+        "name":"Copo"
+    },
+        {
+        "name":"Fio"
+    },
+        {
+        "name":"Grama (g)"
+    },
+        {
+        "name":"Pitada"
+    },
+    {
+        "name":"Litro (l)"
+    },
+        {
+        "name":"Raspas"
+    },
+        {
+        "name":"Tablete"
+    },
+        {
+        "name":"Ramo"
+    },
+        {
+        "name":"Colher de chá (c.c.)"
+    },
+        {
+        "name":"Mililitro (ml)"
+    },
+    {
+        "name":"Xícara (xíc.)"
+    },
+        {
+        "name":"Filete"
+    },
+        {
+        "name":"Colher de sopa (c.s.)"
+    },
+        {
+        "name":"Quilograma (kg)"
+    },
+        {
+        "name":"Punhado"
+    }
+]
+
+
 async def seed():
     prisma = Prisma()
 
@@ -176,6 +231,14 @@ async def seed():
             "fileId":createDiveDTO.fileId,
             "ownerId":createDiveDTO.userId
         })
+
+
+        for ingredient in list_ingredients:
+            await prisma.ingredientsunit.create(
+                data={
+                    "name":ingredient["name"]
+                }
+            )
 
         await prisma.disconnect()
     except:
