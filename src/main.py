@@ -1,13 +1,19 @@
+import threading
 import asyncio
-import sys
-import json
 
-from base.base import Bootstrap
-from tests.messages import aux35
+from shared.infra.sockets.server import Server
 
-#sys.tracebacklimit=0
+async def start_server(server:Server,con):
+    await server.start(con)
+
+def start_async_server(server:Server,con):
+    asyncio.run(start_server(server=server,con=con))
 
 if __name__ == "__main__":
-    base = Bootstrap()
+    server = Server()
 
-    asyncio.run(base.run(json.dumps(aux35)))
+    while True:
+        con, client = server.tcp.accept()
+        print("Conectado por", client)
+        threading.Thread(target=start_async_server, args=(server,con,)).start()
+        print("Conectado com o client foi finalizada!", client)
