@@ -8,18 +8,19 @@ from shared.errors.errors import CustomError
 from config.environments import MD5
 from utils.serializator.login_user import loginUserSerializator
 
+
 class LoginUserUseCase:
-    def __init__(self,userRepository:UserRepository) -> None:
+    def __init__(self, userRepository: UserRepository) -> None:
         self.userRepository = userRepository
 
-    async def execute(self, email,password):
+    async def execute(self, email, password):
         try:
             user = await self.userRepository.findByEmail(email)
 
             if not user:
-                raise CustomError("User not exists")    
+                raise CustomError("User not exists")
 
-            if not compare(password,user.password):
+            if not compare(password, user.password):
                 raise CustomError("Password does not match!")
 
             payload_data = {
@@ -32,7 +33,9 @@ class LoginUserUseCase:
                 key=MD5
             )
 
-            response = loginUserSerializator(user=user,token=token)
+            response = loginUserSerializator(user=user, token=token)
             return response
         except:
+            return {"error": "An error occurred during user login"}
+
             raise Exception("An error occurred during user login")
