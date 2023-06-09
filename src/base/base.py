@@ -156,8 +156,6 @@ class Bootstrap:
                 answer = user
             except (ValueError):
                 raise Exception(ValueError)
-            
-            
 
         elif topic == Topics.USER_LOGIN_EMAIL.value:
             user = await loginUserUseCase.execute(email=body["email"],password=body["password"])
