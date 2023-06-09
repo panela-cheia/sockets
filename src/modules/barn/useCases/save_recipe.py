@@ -17,4 +17,4 @@ class SaveRecipeUseCase:
 
             return response
         except (ValueError):
-            raise Exception(ValueError) 
+            return {"error":ValueError}

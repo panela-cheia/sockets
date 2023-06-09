@@ -54,6 +54,9 @@ class UserRepository:
         user = await prisma.user.find_unique(
             where={
                 'email': email
+            },
+            include={
+                "barn":True
             }
         )
 

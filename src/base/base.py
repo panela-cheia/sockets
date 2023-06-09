@@ -247,7 +247,7 @@ class Bootstrap:
             barn = await saveRecipeInBarnUseCase.execute(data=dto)
             logger.info("{topic} - {response}",topic=Topics.BARN_SAVE_RECIPE.value,response=json.dumps(barn,indent=4,ensure_ascii=False))
 
-            answer = "o"
+            answer = barn
 
         elif topic == Topics.BARN_REMOVE_RECIPE.value:
             dto = RemoveRecipeDTO(barnId=body["id"],recipeId=body["recipe_id"])

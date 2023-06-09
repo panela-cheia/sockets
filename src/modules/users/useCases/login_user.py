@@ -37,5 +37,3 @@ class LoginUserUseCase:
             return response
         except:
             return {"error": "An error occurred during user login"}
-
-            raise Exception("An error occurred during user login")
