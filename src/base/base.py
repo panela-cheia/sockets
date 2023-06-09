@@ -375,7 +375,7 @@ class Bootstrap:
 
             logger.info("{topic} - {response}",topic=Topics.SEARCH_DIVE_AND_USERS.value,response=json.dumps(data,indent=4,ensure_ascii=False))
 
-            answer = "ac"
+            answer = data
 
         elif topic == Topics.INGREDIENT_UNI_CREATE.value:
             unit = await createIngredientsUnitUseCase.execute(name=body["name"])

@@ -12,24 +12,32 @@ class SearchDiveAndUserUseCase:
         self.userRepository = userRepository
 
     async def execute(self, data: SearchDiveAndUserDTO):
-        dives =  await self.diveRepository.findAll(name=data.search_value)
+        if data.search_value == "":
+            data = {
+                "dives": [],
+                "users": []
+            }
 
-        all_dives = []
+            return data
 
-        for dive in dives:
-            dive_formatted = listDiveSerializator(dive=dive)
-            all_dives.append(dive_formatted)
+        else:
+            dives =  await self.diveRepository.findAll(name=data.search_value)
+            all_dives = []
 
-        users = await self.userRepository.searchUser(user_id=data.user_id,value=data.search_value)
+            for dive in dives:
+                dive_formatted = listDiveSerializator(dive=dive)
+                all_dives.append(dive_formatted)
 
-        all_users = [ ]
+            users = await self.userRepository.searchUser(user_id=data.user_id,value=data.search_value)
 
-        for user in users:
-            all_users.append(searchUsersSerializator(user))
+            all_users = [ ]
 
-        data = {
-            "dives": all_dives,
-            "users": all_users
-        }
+            for user in users:
+                all_users.append(searchUsersSerializator(user))
 
-        return data
+            data = {
+                "dives": all_dives,
+                "users": all_users
+            }
+
+            return data
