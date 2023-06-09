@@ -1,3 +1,5 @@
-class CreateFileDTO:
-    def __init__(self,name:str) -> None:
-        self.name = name
+from pydantic import BaseModel
+
+class CreateFileDTO(BaseModel):
+    name: str
+    path: str
