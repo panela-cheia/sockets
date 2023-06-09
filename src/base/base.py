@@ -221,7 +221,7 @@ class Bootstrap:
             user = await userProfileUseCase.execute(user_id=body["user_id"])
             logger.info("{topic} - {response}",topic=Topics.USER_PROFILE.value,response=json.dumps(user,indent=4,ensure_ascii=False))
 
-            answer = "q"
+            answer = user
 
         elif topic == Topics.USER_SEARCH_IN_BARN.value:
             user = await searchInUsersBarnUseCase.execute(user_id=body["user_id"],value=body["value"])
@@ -360,7 +360,7 @@ class Bootstrap:
             dives = await listUserDiveUseCase.execute(user_id=body["user_id"])
             logger.info("{topic} - {response}",topic=Topics.DIVE_USERS_DIVE.value,response=json.dumps(dives,indent=4,ensure_ascii=False))
 
-            answer = "ab"
+            answer = dives
 
         elif topic == Topics.DIVE_LIST_RECIPES.value:
             dives = await listDiveRecipesUseCase.execute(dive_id=body["dive_id"])

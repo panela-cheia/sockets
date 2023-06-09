@@ -10,6 +10,7 @@ def userProfileSerializator(user):
     data = {
         "id": user.id,
         "name": user.name,
+        "username": user.username,
         "bio": user.bio,
         "photo": {
             "id": user.photo.id,
@@ -17,8 +18,8 @@ def userProfileSerializator(user):
             "path": user.photo.path
         } if user.photo else None,
         "posts": str(len(user.recipes)) + " posts",
-        "following":str(len(user.following)) + " seguindo",
-        "followers":str(len(user.followers)) + " seguidores",
+        "following":str(len(user.following)),
+        "followers":str(len(user.followers)),
         "recipes":recipes
     }
 
