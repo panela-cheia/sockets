@@ -1,6 +1,8 @@
 from modules.barn.dtos.search_recipe_in_barn_dto import SearchRecipeInBarnDTO
 from modules.barn.repositories.barn_repository import BarnRepository
 
+from utils.serializator.recipe_without_reactions import recipeWithoutReactionsSerializator
+
 class SearhRecipeUseCase:
     def __init__(self, repository: BarnRepository):
         self.repository = repository
@@ -15,7 +17,6 @@ class SearhRecipeUseCase:
 
         for recipe in barns.recipes:
             if data.recipeName in recipe.name:
-                recipes.append(recipe)
+                recipes.append(recipeWithoutReactionsSerializator(recipe=recipe))
 
         return recipes
-    
