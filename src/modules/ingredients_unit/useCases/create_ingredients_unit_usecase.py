@@ -12,10 +12,10 @@ class CreateIngredientsUnitUseCase:
             verifyIfUnitAlreadyBeenRegistered = await self.repository.findByName(name=name)
 
             if verifyIfUnitAlreadyBeenRegistered:
-                raise Exception("This name already been registered!")
+                return { "error":"This name already been registered!" }
 
             unit =  await self.repository.create(name=name)
 
             return ingredientsUnitSerializator(ingredientsUnit=unit)
         except (ValueError):
-            raise Exception(ValueError)
+            return { "error":ValueError }

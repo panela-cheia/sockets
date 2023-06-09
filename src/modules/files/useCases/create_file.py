@@ -21,4 +21,6 @@ class CreateFileUseCase:
 
         path = APP_URL + "/statics/" + finalName
 
-        return await self.repository.create(name=finalName,path=path)
+        response = await self.repository.create(name=finalName,path=path)
+
+        return { "id":response["id"],path:response["path"] }

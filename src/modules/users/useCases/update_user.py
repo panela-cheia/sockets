@@ -31,6 +31,6 @@ class UpdateUserUseCase:
                 name=updateUserDTO.name,
                 username=updateUserDTO.username,
             )
-            return user
+            return  { "ok":"Successfully updated user: " + user["id"] }
         except:
-            raise Exception("An error occurred during user creation")
+            raise { "error":"An error occurred during user update" }

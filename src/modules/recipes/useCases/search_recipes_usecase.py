@@ -1,5 +1,5 @@
 from modules.recipes.repositories.recipe_repository import RecipeRepository
-from modules.recipes.dtos.create_recipe_dto import CreateRecipeDTO
+from utils.serializator.recipe_without_reactions import recipeWithoutReactionsSerializator
 
 class SearchRecipesUseCase:
     def __init__(self,repository:RecipeRepository) -> None:
@@ -7,4 +7,10 @@ class SearchRecipesUseCase:
 
     async def execute(self,name:str):
         recipes =  await self.repository.search(name=name)
-        return recipes
+        
+        data = []
+
+        for recipe in recipes:
+            data.append(recipeWithoutReactionsSerializator(recipe=recipe))
+
+        return data

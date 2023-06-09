@@ -17,4 +17,4 @@ class RemoveRecipeUseCase:
 
             return response
         except (ValueError):
-            raise Exception(ValueError) 
+            return { "error":ValueError }

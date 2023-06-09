@@ -10,7 +10,7 @@ class DeleleIngredientsUnitUseCase:
             verifyIfUnitAlreadyExists = await self.repository.findById(id=id)
 
             if not verifyIfUnitAlreadyExists:
-                raise Exception("This unit not exits!")
+                return { "error":"This unit not exits!" }
 
             await self.repository.delete(id=id)
 
@@ -18,4 +18,4 @@ class DeleleIngredientsUnitUseCase:
 
             return data
         except (ValueError):
-            raise Exception(ValueError)
+            raise { "error":ValueError }
