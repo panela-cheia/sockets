@@ -14,6 +14,6 @@ class UpdatePhotoUserUseCase:
                 id=id,
                 photo=photo
             )
-            return user
+            return { "ok":"Successfully updated user: " + user["id"] }
         except:
-            raise Exception("An error occurred during user creation")
+            raise { "error": "An error occurred during user creation" }

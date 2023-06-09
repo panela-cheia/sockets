@@ -9,12 +9,12 @@ class UpdateDiveUseCase:
         verifyIfDiveNameAlreadyExists = await self.repository.findDiveByName(updateDiveDTO.name)
 
         if verifyIfDiveNameAlreadyExists:
-            raise ValueError("This name has already been registered!")
+            return { "error":"This name has already been registered!" }
         
         verifyIfDiveExists = await self.repository.findDiveById(dive_id=updateDiveDTO.id)
 
         if not verifyIfDiveExists:
-            raise ValueError("This dive not exists!")
+            return { "error":"This dive not exists!" }
 
         try:
             if not updateDiveDTO.description:
@@ -22,7 +22,7 @@ class UpdateDiveUseCase:
 
             await self.repository.update(updateDiveDTO=updateDiveDTO)
         except (ValueError):
-            raise Exception(ValueError)
+            return { "error":ValueError }
         
         data = { "ok": "dive updated successfully!" }
 

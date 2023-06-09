@@ -173,13 +173,13 @@ class Bootstrap:
             users = await listAllUsersUseCase.execute()
             logger.info("{topic} - {users}",topic=Topics.USER_LIST.value,users=users)
 
-            answer = { "users" :[]}
+            answer = users
 
         elif topic == Topics.USER_LIST_OTHERS.value:
             users = await listOthersUseCase.execute(id=body["id"])
             logger.info("{topic} - {users}",topic=Topics.USER_LIST_OTHERS.value,users=users)
 
-            answer = { "users" :[]}
+            answer = users
 
         elif topic == Topics.USER_FOLLOW.value:
             follow = await followUserUseCase.execute(user_id=body["user_id"],follow_id=body["follow_id"])
@@ -191,7 +191,7 @@ class Bootstrap:
             unfollow = await unfollowUserUseCase.execute(user_id=body["user_id"],unfollow_id=body["unfollow_id"])
             logger.info("{topic} - {response}",topic=Topics.USER_UNFOLLOW.value,response=unfollow)
 
-            answer = "g"
+            answer = unfollow
 
         elif topic == Topics.USER_UPDATE.value:
             updateUserDTO = UpdateUserDTO(
@@ -203,19 +203,19 @@ class Bootstrap:
             update = await updateUserUseCase.execute(id=body["id"],updateUserDTO=updateUserDTO)
             logger.info("{topic} - {response}",topic=Topics.USER_UPDATE.value,response=update)
 
-            answer = "h"
+            answer = update
 
         elif topic == Topics.USER_UPDATE_PHOTO.value:
             update = await updatePhotoUserUseCase.execute(id=body["id"],photo=body["photo"])
             logger.info("{topic} - {response}",topic=Topics.USER_UPDATE_PHOTO.value,response=update)
 
-            answer = "i"
+            answer = update
         
         elif topic == Topics.USER_SEARCH_USERS.value:
             users = await searchUsersUseCase.execute(user_id=body["user_id"],value=body["value"])
             logger.info("{topic} - {response}",topic=Topics.USER_SEARCH_USERS.value,response=json.dumps(users,indent=4,ensure_ascii=False))
 
-            answer = "j"
+            answer = users
 
         elif topic == Topics.USER_PROFILE.value:
             user = await userProfileUseCase.execute(user_id=body["user_id"])
@@ -227,20 +227,20 @@ class Bootstrap:
             user = await searchInUsersBarnUseCase.execute(user_id=body["user_id"],value=body["value"])
             logger.info("{topic} - {response}",topic=Topics.USER_SEARCH_IN_BARN.value,response=json.dumps(user,indent=4,ensure_ascii=False))
 
-            answer = "l"
+            answer = user
 
         elif topic == Topics.USER_BARN.value:
             user = await usersBarnUseCase.execute(user_id=body["user_id"])
             logger.info("{topic} - {response}",topic=Topics.USER_BARN.value,response=json.dumps(user,indent=4,ensure_ascii=False))
 
-            answer = "m"
+            answer = user
 
         elif topic == Topics.BARN_SEARCH_RECIPE.value:
             dto = SearchRecipeInBarnDTO(barnId=body["id"],recipeName=body["name"])
             recipes = await searchRecipeUseCase.execute(data=dto)
             logger.info("{topic} - {response}",topic=Topics.BARN_SEARCH_RECIPE.value,response=recipes)
 
-            answer = "n"
+            answer = recipes
 
         elif topic == Topics.BARN_SAVE_RECIPE.value:
             dto = BarnSaveRecipeDTO(barnId=body["id"],recipeId=body["recipe_id"])
@@ -254,21 +254,21 @@ class Bootstrap:
             barn = await removeRecipeUseCase.execute(data=dto)
             logger.info("{topic} - {response}",topic=Topics.BARN_REMOVE_RECIPE.value,response=json.dumps(barn,indent=4,ensure_ascii=False))
 
-            answer = "p"
+            answer = barn
 
         elif topic == Topics.FILE_CREATE.value:
             createFileDTO = CreateFileDTO(name=body["name"])
             file = await createFileUseCase.execute(createFileDTO=createFileDTO)
             logger.info("{topic} - {response}",topic=Topics.FILE_CREATE.value,response=file)
 
-            answer = "q"
+            answer = file
 
         elif topic == Topics.FILE_DELETE.value:
             deleteFileDTO = DeleteFileDTO(id=body["id"])
             file = await deleteFileUseCase.execute(deleteFileDTO=deleteFileDTO)
             logger.info("{topic} - {response}",topic=Topics.FILE_DELETE.value,response=file)
         
-            answer = "r"
+            answer = file
 
         elif topic == Topics.RECIPE_CREATE.value:
             createRecipeDTO = CreateRecipeDTO(
@@ -289,7 +289,6 @@ class Bootstrap:
             recipes = await listRecipesUseCase.execute()
             logger.info("{topic} - {response}",topic=Topics.RECIPE_LIST.value,response=json.dumps(recipes,indent=4,ensure_ascii=False))
 
-            #answer = json.dumps(recipes,ensure_ascii=False)
             answer = recipes
 
         elif topic == Topics.RECIPE_REACTION.value:
@@ -304,7 +303,7 @@ class Bootstrap:
             recipes = await searchRecipesUseCase.execute(name=body["name"])
             logger.info("{topic} - {response}",topic=Topics.RECIPE_SEARCH.value,response=recipes)
 
-            answer = "v"
+            answer = recipes
 
         elif topic == Topics.DIVE_CREATE.value:
             createDiveDTO = CreateDiveDTO(
@@ -323,13 +322,13 @@ class Bootstrap:
             dive = await searchDiveUseCase.execute(diveName=body["name"])
             logger.info("{topic} - {response}",topic=Topics.DIVE_SEARCH.value,response=json.dumps(dive,indent=4,ensure_ascii=False))
 
-            answer = "x"
+            answer = dive
 
         elif topic == Topics.DIVE_ENTER.value:
             dive = await enterDiveUseCase.execute(user_id=body["id"],dive_id=body["diveId"])
             logger.info("{topic} - {response}",topic=Topics.DIVE_ENTER.value,response=json.dumps(dive,indent=4,ensure_ascii=False))
 
-            answer = "y"
+            answer = dive
 
         elif topic == Topics.DIVE_EXIT.value:
             exitDiveDTO = ExitDiveDTO(
@@ -341,7 +340,7 @@ class Bootstrap:
             dive = await exitDiveUseCase.execute(data=exitDiveDTO)
             logger.info("{topic} - {response}",topic=Topics.DIVE_EXIT.value,response=json.dumps(dive,indent=4,ensure_ascii=False))
 
-            answer = "z"
+            answer = dive
 
         elif topic == Topics.DIVE_UPDATE.value:
             dto = UpdateDiveDTO(
@@ -354,7 +353,7 @@ class Bootstrap:
             dive_updated = await updateDiveUseCase.execute(updateDiveDTO=dto)
             logger.info("{topic} - {response}",topic=Topics.DIVE_UPDATE.value,response=json.dumps(dive_updated,indent=4,ensure_ascii=False))
 
-            answer = "aa"
+            answer = dive_updated
 
         elif topic == Topics.DIVE_USERS_DIVE.value:
             dives = await listUserDiveUseCase.execute(user_id=body["user_id"])
@@ -381,13 +380,13 @@ class Bootstrap:
             unit = await createIngredientsUnitUseCase.execute(name=body["name"])
             logger.info("{topic} - {response}",topic=Topics.INGREDIENT_UNI_CREATE.value,response=json.dumps(unit,indent=4,ensure_ascii=False))
 
-            answer = "ad"
+            answer = unit
 
         elif topic == Topics.INGREDIENT_UNIT_DELETE.value:
             unit = await deleleIngredientsUnitUseCase.execute(id=body["id"])
             logger.info("{topic} - {response}",topic=Topics.INGREDIENT_UNIT_DELETE.value,response=json.dumps(unit,indent=4,ensure_ascii=False))
         
-            answer = "ae"
+            answer = unit
 
         elif topic == Topics.INGREDIENT_UNIT_LIST.value:
             units = await listIngredientsUnitUseCase.execute()

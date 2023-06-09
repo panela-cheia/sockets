@@ -10,15 +10,15 @@ class UnfollowUserUseCase:
         unfollow_user = await self.userRepository.findById(unfollow_id)
 
         if not user:
-            raise ValueError("Invalid user ID")
+            return {"error":"Invalid user ID"}
 
         if not unfollow_user:
-            raise ValueError("Invalid unfollow user ID")
+            return {"error":"Invalid unfollow user ID"}
 
         # Verificar se o usuário está seguindo o usuário a ser deixado de seguir
         existing_follow = await self.userRepository.verifyFollowing(follower=user_id,following=unfollow_id)
         if not existing_follow:
-            raise ValueError("Not following this user")
+            return {"error":"Not following this user"}
         
         await self.userRepository.deleteFollow(user_id=user_id,unfollow_id=unfollow_id)
 
