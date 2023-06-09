@@ -317,7 +317,7 @@ class Bootstrap:
             dive = await createDiveUseCase.execute(data=createDiveDTO)
             logger.info("{topic} - {response}",topic=Topics.DIVE_CREATE.value,response=dive)
 
-            answer = "w"
+            answer = dive
 
         elif topic == Topics.DIVE_SEARCH.value:
             dive = await searchDiveUseCase.execute(diveName=body["name"])

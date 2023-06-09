@@ -1,4 +1,4 @@
-def usersDiveSerializator(dive):
+def usersDiveSerializator(dive):    
     response = {
         "id": dive.dive.id,
         "name":dive.dive.name,
@@ -9,7 +9,7 @@ def usersDiveSerializator(dive):
             "id": dive.dive.photo.id,
             "name":  dive.dive.photo.name,
             "path":  dive.dive.photo.path
-        }
+        } if dive.dive.photo else None
     }
 
     return response

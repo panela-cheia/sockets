@@ -6,8 +6,11 @@ class CreateDiveUseCase:
         self.repository = repository
     
     async def execute(self, data:CreateDiveDTO):
-        dive =  await self.repository.create(data)
 
-        await self.repository.enterDive(dive_id=dive.id,user_id=data.userId)
+        try:
+            dive =  await self.repository.create(data)
+            await self.repository.enterDive(dive_id=dive.id,user_id=data.userId)
 
-        return dive
+            return { "ok": "dive created!" }
+        except (ValueError):
+            return { "error": ValueError }
