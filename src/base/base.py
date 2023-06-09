@@ -298,7 +298,7 @@ class Bootstrap:
             reaction = await reactionRecipeUseCase.execute(reaction_data=dto) 
             logger.info("{topic} - {response}",topic=Topics.RECIPE_REACTION.value,response=reaction)
 
-            answer = "u"
+            answer = reaction
 
         elif topic == Topics.RECIPE_SEARCH.value:
             recipes = await searchRecipesUseCase.execute(name=body["name"])
