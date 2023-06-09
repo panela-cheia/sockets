@@ -283,7 +283,7 @@ class Bootstrap:
             recipe = await createRecipeUseCase.execute(data=createRecipeDTO)
             logger.info("{topic} - {response}",topic=Topics.RECIPE_CREATE.value,response=json.dumps(recipe,indent=4,ensure_ascii=False))
 
-            answer = "s"
+            answer = recipe
 
         elif topic == Topics.RECIPE_LIST.value:
             recipes = await listRecipesUseCase.execute()
@@ -393,6 +393,6 @@ class Bootstrap:
             units = await listIngredientsUnitUseCase.execute()
             logger.info("{topic} - {response}",topic=Topics.INGREDIENT_UNIT_LIST.value,response=json.dumps(units,indent=4,ensure_ascii=False))
 
-            answer = "af"
+            answer = units
 
         return answer

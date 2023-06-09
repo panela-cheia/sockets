@@ -19,4 +19,4 @@ class CreateRecipeUseCase:
 
             return data
         except (ValueError):
-            raise Exception(ValueError)
+            return {"error":ValueError}
