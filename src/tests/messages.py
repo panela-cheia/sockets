@@ -74,7 +74,8 @@ aux9 = {
 aux10 = {
     "topic": "@file/create_file",
     "body": {
-        "name": "file.png"
+        "name": "file.png",
+        "path": "path"
     }
 }
 

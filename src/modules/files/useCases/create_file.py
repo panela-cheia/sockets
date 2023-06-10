@@ -19,8 +19,12 @@ class CreateFileUseCase:
 
         finalName = generate() +  "-" + createFileDTO.name
 
-        path = APP_URL + "/statics/" + finalName
+        response = await self.repository.create(name=finalName,path=createFileDTO.path)
 
-        response = await self.repository.create(name=finalName,path=path)
+        data = {
+            "id": response.id,
+            "name": response.name,
+            "path": response.path
+        }
 
-        return { "id":response["id"],path:response["path"] }
+        return data

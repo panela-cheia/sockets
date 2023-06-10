@@ -257,7 +257,7 @@ class Bootstrap:
             answer = barn
 
         elif topic == Topics.FILE_CREATE.value:
-            createFileDTO = CreateFileDTO(name=body["name"])
+            createFileDTO = CreateFileDTO(name=body["name"],path=body["path"])
             file = await createFileUseCase.execute(createFileDTO=createFileDTO)
             logger.info("{topic} - {response}",topic=Topics.FILE_CREATE.value,response=file)
 
